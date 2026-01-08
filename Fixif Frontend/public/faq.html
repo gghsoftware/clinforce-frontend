@@ -1,105 +1,564 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <title>FAQ & Privacy – Fixif.ai</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="Frequently asked questions and a quick overview of how Fixif.ai handles your data."
+    content="Frequently asked questions and a quick overview of how Fixif.ai supports shops and fleets and handles your data."
   />
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* =========================================================
+       THEME (Light/Dark) — black/white/gray only
+    ========================================================= */
+    :root{
+      --bg:#ffffff;
+      --text:#111111;
+      --sub:#4b5563;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --card-bg:#ffffff;
+      --hero-bg:#fafafa;
+      --shadow-soft:0 10px 26px rgba(0,0,0,.12);
+      --focus:0 0 0 4px rgba(17,17,17,.16);
+    }
+    [data-theme="dark"]{
+      --bg:#0f0f0f;
+      --text:#f9fafb;
+      --sub:#d1d5db;
+      --muted:#9ca3af;
+      --border:#27272a;
+      --card-bg:#18181b;
+      --hero-bg:#111827;
+      --shadow-soft:0 10px 26px rgba(0,0,0,.6);
+      --focus:0 0 0 4px rgba(249,250,251,.14);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.5;
+      transition:background .25s ease,color .25s ease;
+    }
+    .page{ min-height:100vh; display:flex; flex-direction:column; background:var(--bg); }
+    .container{ max-width:1180px; margin:0 auto; padding:0 1.5rem; }
+
+    /* =========================================================
+       UPDATED NAVBAR
+    ========================================================= */
+    .nav-header{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter:blur(16px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-container{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:.9rem 0;
+      gap:1rem;
+    }
+    .nav-brand{
+      display:flex;
+      align-items:center;
+      gap:.7rem;
+      text-decoration:none;
+      color:var(--text);
+      flex-shrink:0;
+    }
+    .nav-logo{
+      width:38px;
+      height:38px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      object-fit:cover;
+      background:var(--card-bg);
+    }
+    .nav-brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height:1.15;
+    }
+    .nav-brand-text strong{
+      font-size:1.05rem;
+      font-weight:700;
+      letter-spacing:-.01em;
+    }
+    .nav-brand-text span{
+      font-size:.78rem;
+      color:var(--muted);
+      font-weight:500;
+    }
+
+    .nav-menu{
+      display:flex;
+      gap:1.6rem;
+      align-items:center;
+      margin-left:auto;
+    }
+    .nav-item{
+      font-size:.95rem;
+      text-decoration:none;
+      color:var(--muted);
+      position:relative;
+      padding:.2rem 0;
+      transition:color .18s ease;
+      white-space:nowrap;
+    }
+    .nav-item:hover{ color:var(--text); }
+    .nav-item::after{
+      content:"";
+      position:absolute;
+      bottom:-3px;
+      left:50%;
+      height:2px;
+      width:0%;
+      background:var(--text);
+      border-radius:30px;
+      transition:.18s ease;
+      transform:translateX(-50%);
+    }
+    .nav-item:hover::after{ width:92%; }
+    .nav-item.is-active{
+      color:var(--text);
+      font-weight:600;
+    }
+    .nav-item.is-active::after{ width:92%; }
+
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+      margin-left:1rem;
+      flex-shrink:0;
+    }
+    .btn-pill{
+      border:1px solid var(--text);
+      padding:.48rem 1.05rem;
+      border-radius:999px;
+      font-size:.88rem;
+      color:var(--text);
+      text-decoration:none;
+      background:transparent;
+      white-space:nowrap;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:background .18s ease,color .18s ease,border-color .18s ease;
+    }
+    .btn-pill:hover{ background:var(--text); color:var(--bg); }
+    .btn-primary{
+      background:var(--text);
+      color:var(--bg);
+    }
+    .btn-primary:hover{
+      background:#000;
+      border-color:#000;
+      color:#fff;
+    }
+    .btn-icon{
+      width:38px;
+      height:38px;
+      padding:0;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .btn-icon span{ font-size:1rem; }
+
+    .nav-toggle{
+      display:none;
+      width:40px;
+      height:40px;
+      border-radius:999px;
+      border:1px solid var(--text);
+      background:var(--bg);
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:4px;
+      cursor:pointer;
+      flex-shrink:0;
+    }
+    .nav-toggle span{
+      width:18px;
+      height:2px;
+      background:var(--text);
+      transition:.2s ease;
+    }
+    .nav-toggle.open span:nth-child(1){ transform:rotate(45deg) translateY(4px); }
+    .nav-toggle.open span:nth-child(2){ transform:rotate(-45deg) translateY(-4px); }
+
+    .nav-mobile{
+      display:none;
+      flex-direction:column;
+      background:var(--bg);
+      border-bottom:1px solid var(--border);
+      padding:1.1rem 1.5rem 1.3rem;
+      gap:.9rem;
+      animation:fadeDown .25s ease;
+    }
+    .nav-mobile a{
+      font-size:1rem;
+      color:var(--text);
+      text-decoration:none;
+    }
+    .nav-mobile a.bold{ font-weight:700; }
+    .nav-mobile a.active{ font-weight:700; text-decoration:underline; text-underline-offset:4px; }
+
+    @keyframes fadeDown{
+      from{ opacity:0; transform:translateY(-8px); }
+      to{ opacity:1; transform:translateY(0); }
+    }
+    @media (max-width:920px){
+      .nav-menu,.nav-actions{ display:none; }
+      .nav-toggle{ display:flex; }
+      .nav-mobile.open{ display:flex; }
+    }
+
+    /* =========================================================
+       PAGE STYLES
+    ========================================================= */
+    main{ flex:1; }
+
+    .section{
+      padding:3.2rem 0;
+      border-top:1px solid var(--border);
+    }
+
+    /* ✅ CENTER THE FAQ CONTENTS */
+    .faq-center {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-header{
+      margin:0 auto 1.3rem;
+      max-width:46rem;
+      text-align:center; /* ✅ Center header text */
+    }
+
+    .section-kicker{
+      font-size:.75rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin:0 0 .45rem;
+    }
+
+    .section-title{
+      margin:0 0 .7rem;
+      font-size:clamp(2rem,2.2vw + 1rem,2.5rem);
+      line-height:1.06;
+      letter-spacing:-.02em;
+    }
+
+    .section-subtitle{
+      margin:0 auto;
+      color:var(--sub);
+      font-size:.98rem;
+    }
+
+    .faq-list{
+      display:flex;
+      flex-direction:column;
+      gap:.8rem;
+      margin:1.2rem auto 0;
+      max-width:860px;
+    }
+
+    .faq-group-title{
+      margin:1.25rem 0 .15rem;
+      font-size:1.05rem;
+      letter-spacing:-.01em;
+      text-align:center; /* ✅ Center group titles */
+      color:var(--text);
+    }
+
+    .faq-item{
+      border:1px solid var(--border);
+      border-radius:1rem;
+      background:var(--card-bg);
+      padding:.1rem .1rem;
+      overflow:hidden;
+    }
+
+    .faq-item summary{
+      cursor:pointer;
+      list-style:none;
+      padding:1rem 1.05rem;
+      font-weight:700;
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+    .faq-item summary::-webkit-details-marker{ display:none; }
+
+    .faq-item summary::after{
+      content:"+";
+      font-weight:800;
+      color:var(--muted);
+      flex-shrink:0;
+      transition:transform .18s ease;
+    }
+    details[open] summary::after{
+      content:"–";
+      color:var(--text);
+    }
+
+    .faq-item p, .faq-item ol{
+      margin:0;
+      padding:0 1.05rem 1rem;
+      color:var(--sub);
+      font-size:.95rem;
+      text-align:left; /* keep body readable */
+    }
+
+    .faq-item ol{
+      padding-left:2.1rem;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+      gap:1.4rem;
+      align-items:start;
+    }
+
+    .card{
+      border:1px solid var(--border);
+      border-radius:1rem;
+      background:var(--card-bg);
+      padding:1.15rem 1.25rem;
+    }
+
+    .card-title{
+      margin:0 0 .45rem;
+      font-size:1rem;
+      font-weight:800;
+    }
+
+    .card-text{
+      margin:0;
+      color:var(--sub);
+      font-size:.93rem;
+    }
+
+    .site-footer{
+      border-top:1px solid var(--border);
+      padding:1.5rem 0 2rem;
+      font-size:.82rem;
+      color:var(--muted);
+    }
+
+    .footer-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:.8rem;
+      flex-wrap:wrap;
+    }
+
+    .footer-links{
+      display:flex;
+      gap:.9rem;
+      flex-wrap:wrap;
+    }
+
+    .footer-links a{
+      color:var(--muted);
+      text-decoration:none;
+    }
+    .footer-links a:hover{
+      color:var(--text);
+      text-decoration:underline;
+      text-underline-offset:3px;
+    }
+
+    @media (max-width:900px){
+      .grid-2{ grid-template-columns:minmax(0,1fr); }
+    }
+    @media (max-width:560px){
+      .container{ padding:0 1.1rem; }
+      .section{ padding:2.6rem 0; }
+      .faq-item summary{ padding:.95rem .95rem; }
+      .faq-item p,.faq-item ol{ padding:0 .95rem .95rem; }
+    }
+  </style>
 </head>
+
 <body>
 <div class="page">
-  <header class="site-header">
-    <div class="container header-inner">
-        <a href="index.html" class="brand">
-            <img
-              src="fixif.jpg"
-              alt="Fixif.ai logo"
-              class="brand-logo"
-            />
-            <div class="brand-text">
-              <span class="brand-name">Fixif.ai</span>
-              <span class="brand-tagline">Vehicle issue intake &amp; triage</span>
-            </div>
-          </a>
-          
-      <nav class="site-nav">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="how-it-works.html" class="nav-link">How It Works</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="contact.html" class="nav-link">Contact</a>
-        <a href="faq.html" class="nav-link is-active">FAQ</a>
-        <a href="register.html" class="nav-link">Learn More</a>
 
+  <!-- UPDATED NAVBAR -->
+  <header class="nav-header">
+    <div class="container nav-container">
+      <a class="nav-brand" href="index.html">
+        <img src="fixif.jpg" class="nav-logo" alt="Fixif.ai logo" />
+        <div class="nav-brand-text">
+          <strong>Fixif.ai</strong>
+          <span>Vehicle issue intake &amp; triage</span>
+        </div>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-item">Home</a>
+        <a href="how-it-works.html" class="nav-item">How It Works</a>
+        <a href="about.html" class="nav-item">About</a>
+        <a href="contact.html" class="nav-item">Contact</a>
+        <a href="faq.html" class="nav-item is-active">FAQ</a>
+        <a href="register.html" class="nav-item">Learn More</a>
       </nav>
 
-      <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">
-          <span class="theme-toggle-icon">🌙</span>
-          <span class="theme-toggle-label">Dark mode</span>
+      <div class="nav-actions">
+        <button id="themeToggle" class="btn-pill btn-icon" type="button" aria-label="Toggle theme">
+          <span id="themeIcon">🌙</span>
         </button>
-        <button
-          class="nav-toggle"
-          type="button"
-          data-nav-toggle
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-        >
-          <span></span><span></span>
-        </button>
+        <a href="signin.html" class="btn-pill">Sign in</a>
+        <a href="contact.html" class="btn-pill btn-primary">Contact Us</a>
       </div>
+
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="nav-mobile" id="navMobile">
+      <a href="index.html">Home</a>
+      <a href="how-it-works.html">How It Works</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="faq.html" class="active">FAQ</a>
+      <a href="register.html">Learn More</a>
+      <a href="signin.html" class="bold">Sign in</a>
     </div>
   </header>
 
   <main>
     <section class="section">
-      <div class="container">
+      <div class="container faq-center">
         <header class="section-header">
           <p class="section-kicker">FAQ</p>
           <h1 class="section-title">Frequently asked questions.</h1>
           <p class="section-subtitle">
-            A quick overview of how Fixif.ai fits into your real-world car decisions.
+            A quick overview of how Fixif.ai supports shops and fleets in real-world vehicle repair planning.
           </p>
         </header>
 
         <div class="faq-list">
+          <h2 class="faq-group-title">General</h2>
+
           <details class="faq-item">
-            <summary>Is Fixif.ai a replacement for a mechanic?</summary>
+            <summary>What is Fixif.ai?</summary>
             <p>
-              No. Fixif.ai helps you describe issues clearly, understand possible
-              causes and risk, and prepare better conversations with your mechanic
-              or fleet team. It’s a guidance layer, not a replacement for expert
-              inspection.
+              Fixif.ai is a platform that helps shops and fleets diagnose vehicle issues, suggest tests,
+              recommend parts, and provide estimated labor—everything in one streamlined workflow.
             </p>
           </details>
 
           <details class="faq-item">
-            <summary>Can Fixif.ai tell me if it’s safe to keep driving?</summary>
+            <summary>Who is Fixif.ai for?</summary>
             <p>
-              Fixif.ai can provide a risk-based perspective (low, medium, high)
-              based on your description, but it can’t see or touch the car. When
-              in doubt, we always recommend erring on the safe side.
+              Fixif.ai is designed for auto repair shops, fleet managers, and maintenance professionals
+              who want faster, smarter, and more accurate vehicle repair planning.
             </p>
           </details>
 
           <details class="faq-item">
-            <summary>Which car brands does Fixif.ai support?</summary>
+            <summary>Do I need any special equipment to use Fixif.ai?</summary>
             <p>
-              Fixif.ai supports common passenger vehicles first and is expanding
-              to light commercial and fleet vehicles. It focuses on patterns and
-              symptoms rather than brand-specific marketing terms.
+              No special hardware is required. If available, OBD-II data can be added to improve
+              diagnostic accuracy, but it’s completely optional.
+            </p>
+          </details>
+
+          <h2 class="faq-group-title">Workflow &amp; Features</h2>
+
+          <details class="faq-item">
+            <summary>How does Fixif.ai work?</summary>
+            <p>Fixif.ai guides you through a simple three-step process:</p>
+            <ol>
+              <li>Add vehicle details.</li>
+              <li>Describe symptoms and provide OBD-II data (if available).</li>
+              <li>
+                Review likely causes, suggested tests, recommended parts,
+                and estimated labor in one clear summary.
+              </li>
+            </ol>
+          </details>
+
+          <details class="faq-item">
+            <summary>Can I use Fixif.ai for multiple vehicles or fleets?</summary>
+            <p>
+              Yes. Fixif.ai works for single vehicles, multiple vehicles, or entire fleets, helping you
+              manage diagnostics and maintenance efficiently at scale.
             </p>
           </details>
 
           <details class="faq-item">
-            <summary>Can workshops or fleets integrate Fixif.ai into their systems?</summary>
+            <summary>Are labor estimates accurate?</summary>
             <p>
-              Yes. We’re developing APIs and integrations so workshop CRMs and
-              fleet management tools can send symptoms, receive structured
-              summaries, and log AI-assisted guidance alongside existing data.
+              Fixif.ai provides industry-informed estimated labor for repairs. Actual labor time and cost
+              may vary depending on your location, vehicle condition, and shop practices.
+            </p>
+          </details>
+
+          <h2 class="faq-group-title">Pricing &amp; Access</h2>
+
+          <details class="faq-item">
+            <summary>How much does Fixif.ai cost?</summary>
+            <p>
+              Pricing depends on your shop or fleet size and usage needs. Contact us to schedule a demo
+              and receive a personalized plan for your operation.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Is there a trial or demo?</summary>
+            <p>
+              Yes. You can schedule a live demo to see Fixif.ai in action and walk through real scenarios
+              with our team. We’ll help you understand how it fits your workflow.
+            </p>
+          </details>
+
+          <h2 class="faq-group-title">Support &amp; Contact</h2>
+
+          <details class="faq-item">
+            <summary>How do I get support if I have questions?</summary>
+            <p>
+              You can reach our team via the Contact Us page. Share your questions or issues and we’ll
+              respond promptly to help you get the most out of Fixif.ai.
+            </p>
+          </details>
+
+          <details class="faq-item">
+            <summary>Can I schedule a demo directly?</summary>
+            <p>
+              Yes. Use the Contact / Demo form to choose a date and time that works for you, and we’ll
+              set up a session tailored to your shop or fleet.
             </p>
           </details>
         </div>
@@ -107,31 +566,32 @@
     </section>
 
     <section class="section" id="privacy">
-      <div class="container grid-2">
-        <div>
-          <header class="section-header">
-            <p class="section-kicker">Privacy &amp; data</p>
-            <h2 class="section-title">How we handle your information.</h2>
-          </header>
-          <p class="section-subtitle">
-            Fixif.ai is built to help with car problems—not to harvest personal
-            details. We only collect what we need to run the product and improve it
-            responsibly.
-          </p>
-        </div>
-        <div class="card">
-          <h3 class="card-title">Summary (not legal text)</h3>
-          <ul style="margin: 0.35rem 0 0; padding-left: 1.1rem; color: var(--text-muted); font-size: 0.92rem;">
-            <li>We store conversations to improve guidance and product quality.</li>
-            <li>We avoid collecting unnecessary identifiers where possible.</li>
-            <li>You can request deletion of your account-linked data.</li>
-            <li>We do not sell your data to third-party advertisers.</li>
-          </ul>
-          <p class="card-text" style="margin-top: 0.7rem;">
-            For full legal terms and privacy wording, your final production site
-            should include a dedicated, lawyer-reviewed Privacy Policy and Terms of
-            Use.
-          </p>
+      <div class="container faq-center">
+        <div class="grid-2">
+          <div>
+            <header class="section-header" style="text-align:left; margin:0 0 1rem;">
+              <p class="section-kicker">Privacy &amp; data</p>
+              <h2 class="section-title" style="font-size:1.7rem;">How we handle your information.</h2>
+            </header>
+            <p class="section-subtitle" style="text-align:left;">
+              Fixif.ai is built to help with car problems—not to harvest personal details.
+              We only collect what we need to run the product and improve it responsibly.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">Summary (not legal text)</h3>
+            <ul style="margin:.35rem 0 0; padding-left:1.1rem; color:var(--sub); font-size:.92rem;">
+              <li>We store conversations to improve guidance and product quality.</li>
+              <li>We avoid collecting unnecessary identifiers where possible.</li>
+              <li>You can request deletion of your account-linked data.</li>
+              <li>We do not sell your data to third-party advertisers.</li>
+            </ul>
+            <p class="card-text" style="margin-top:.7rem;">
+              For full legal terms and privacy wording, your final production site should include
+              a dedicated, lawyer-reviewed Privacy Policy and Terms of Use.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -149,9 +609,38 @@
   </footer>
 </div>
 
-<script src="theme.js"></script>
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  const navToggle = document.getElementById("navToggle");
+  const navMobile = document.getElementById("navMobile");
+  if (navToggle && navMobile) {
+    navToggle.addEventListener("click", () => {
+      navToggle.classList.toggle("open");
+      navMobile.classList.toggle("open");
+    });
+  }
+
+  const root = document.documentElement;
+  const themeToggle = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+
+  function applyTheme(mode) {
+    root.setAttribute("data-theme", mode);
+    localStorage.setItem("fixif_theme", mode);
+    if (themeIcon) themeIcon.textContent = mode === "dark" ? "☀️" : "🌙";
+  }
+
+  const stored = localStorage.getItem("fixif_theme");
+  if (stored === "dark" || stored === "light") applyTheme(stored);
+  else applyTheme(root.getAttribute("data-theme") || "light");
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+  }
 </script>
 </body>
 </html>

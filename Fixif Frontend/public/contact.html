@@ -1,78 +1,552 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <title>Contact & Support – Fixif.ai</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="Contact the Fixif.ai team for support, partnership, or pilot access for your workshop or fleet."
+    content="Schedule a demo or contact the Fixif.ai team for support, partnership, or fleet/shop onboarding."
   />
-  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    /* ----------------------------------------------
+       THEME VARIABLES (LIGHT / DARK)
+    ---------------------------------------------- */
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --sub: #4b5563;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --card-bg: #ffffff;
+      --hero-bg: #fafafa;
+      --shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.12);
+      --focus: 0 0 0 4px rgba(17, 17, 17, 0.16);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f0f0f;
+      --text: #f9fafb;
+      --sub: #d1d5db;
+      --muted: #9ca3af;
+      --border: #27272a;
+      --card-bg: #18181b;
+      --hero-bg: #111827;
+      --shadow-soft: 0 10px 26px rgba(0, 0, 0, 0.6);
+      --focus: 0 0 0 4px rgba(249, 250, 251, 0.16);
+    }
+
+    /* ----------------------------------------------
+       GLOBAL
+    ---------------------------------------------- */
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ----------------------------------------------
+       UPDATED NAVBAR (PREMIUM)
+    ---------------------------------------------- */
+    .nav-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      gap: 1rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    .nav-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      background: var(--card-bg);
+    }
+
+    .nav-brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .nav-brand-text strong {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-brand-text span {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 1.6rem;
+      align-items: center;
+      margin-left: auto;
+    }
+
+    .nav-item {
+      font-size: 0.95rem;
+      text-decoration: none;
+      color: var(--muted);
+      position: relative;
+      padding: 0.2rem 0;
+      transition: color 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .nav-item:hover { color: var(--text); }
+
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 50%;
+      height: 2px;
+      width: 0%;
+      background: var(--text);
+      border-radius: 30px;
+      transition: 0.18s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-item:hover::after { width: 92%; }
+
+    .nav-item.is-active {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .nav-item.is-active::after { width: 92%; }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-left: 1rem;
+      flex-shrink: 0;
+    }
+
+    .btn-pill {
+      border: 1px solid var(--text);
+      padding: 0.48rem 1.05rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      color: var(--text);
+      text-decoration: none;
+      background: transparent;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn-pill:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .btn-primary:hover {
+      background: #000000;
+      border-color: #000000;
+      color: #ffffff;
+    }
+
+    .btn-icon {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon span { font-size: 1rem; }
+
+    .nav-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid var(--text);
+      background: var(--bg);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .nav-toggle span {
+      width: 18px;
+      height: 2px;
+      background: var(--text);
+      transition: 0.2s ease;
+    }
+
+    .nav-toggle.open span:nth-child(1) {
+      transform: rotate(45deg) translateY(4px);
+    }
+    .nav-toggle.open span:nth-child(2) {
+      transform: rotate(-45deg) translateY(-4px);
+    }
+
+    .nav-mobile {
+      display: none;
+      flex-direction: column;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 1.1rem 1.5rem 1.3rem;
+      gap: 0.9rem;
+      animation: fadeDown 0.25s ease;
+    }
+
+    .nav-mobile a {
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-mobile a.bold { font-weight: 700; }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 920px) {
+      .nav-menu, .nav-actions { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-mobile.open { display: flex; }
+    }
+
+    /* ----------------------------------------------
+       MAIN / SECTIONS
+    ---------------------------------------------- */
+    main { flex: 1; }
+
+    .section {
+      padding: 3.2rem 0;
+    }
+
+    .section-header {
+      max-width: 44rem;
+      margin-bottom: 1.3rem;
+    }
+
+    .section-kicker {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 0.45rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 2.2vw + 1rem, 2.5rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.7rem;
+      color: var(--text);
+    }
+
+    .section-subtitle {
+      margin: 0;
+      color: var(--sub);
+      font-size: 0.98rem;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
+      gap: 1.6rem;
+      align-items: start;
+    }
+
+    .card {
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      padding: 1.2rem 1.25rem;
+      box-shadow: none;
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card-title {
+      margin: 0 0 0.4rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .card-text {
+      margin: 0;
+      color: var(--sub);
+      font-size: 0.92rem;
+    }
+
+    .card-text + .card-text { margin-top: 0.55rem; }
+
+    /* ----------------------------------------------
+       FORM
+    ---------------------------------------------- */
+    form { margin: 0; }
+
+    .form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    input, textarea {
+      width: 100%;
+      border-radius: 0.85rem;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      padding: 0.72rem 0.85rem;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.25s ease, color 0.25s ease;
+    }
+
+    textarea { resize: vertical; min-height: 110px; }
+
+    input:focus, textarea:focus {
+      border-color: var(--text);
+      box-shadow: var(--focus);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 0.6rem 1.1rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform 0.14s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .btn-primary:hover {
+      background: #000;
+      border-color: #000;
+    }
+
+    .hint {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    /* ----------------------------------------------
+       FOOTER
+    ---------------------------------------------- */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 0 2rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      transition: border-color 0.25s ease;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+      text-decoration: underline;
+    }
+
+    /* ----------------------------------------------
+       RESPONSIVE
+    ---------------------------------------------- */
+    @media (max-width: 980px) {
+      .contact-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container { padding: 0 1.1rem; }
+      .form-row { grid-template-columns: minmax(0, 1fr); }
+      .section { padding: 2.6rem 0; }
+    }
+  </style>
 </head>
+
 <body>
 <div class="page">
-  <header class="site-header">
-    <div class="container header-inner">
-     
-        <a href="index.html" class="brand">
-            <img
-              src="fixif.jpg"
-              alt="Fixif.ai logo"
-              class="brand-logo"
-            />
-            <div class="brand-text">
-              <span class="brand-name">Fixif.ai</span>
-              <span class="brand-tagline">Vehicle issue intake &amp; triage</span>
-            </div>
-          </a>
 
-          
-      <nav class="site-nav">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="how-it-works.html" class="nav-link">How It Works</a>
-        <a href="about.html" class="nav-link">About</a>
-        <a href="contact.html" class="nav-link is-active">Contact</a>
-        <a href="faq.html" class="nav-link">FAQ</a>
-        <a href="register.html" class="nav-link">Learn More</a>
+  <!-- UPDATED NAVBAR -->
+  <header class="nav-header">
+    <div class="container nav-container">
+      <a class="nav-brand" href="index.html">
+        <img src="fixif.jpg" class="nav-logo" alt="Fixif.ai logo">
+        <div class="nav-brand-text">
+          <strong>Fixif.ai</strong>
+          <span>AI-Powered Auto Repair Assistant</span>
+        </div>
+      </a>
 
+      <nav class="nav-menu">
+        <a href="how-it-works.html" class="nav-item">How It Works</a>
+        <a href="about.html" class="nav-item">About</a>
+        <a href="faq.html" class="nav-item">FAQ</a>
+        <a href="contact.html" class="nav-item is-active">Contact</a>
+        <a href="learn.html" class="nav-item">Learn More</a>
       </nav>
 
-      <div class="header-actions">
-        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">
-          <span class="theme-toggle-icon">🌙</span>
-          <span class="theme-toggle-label">Dark mode</span>
+      <div class="nav-actions">
+        <button id="themeToggle" class="btn-pill btn-icon" type="button" aria-label="Toggle theme">
+          <span id="themeIcon">🌙</span>
         </button>
-        <button
-          class="nav-toggle"
-          type="button"
-          data-nav-toggle
-          aria-label="Toggle navigation"
-          aria-expanded="false"
-        >
-          <span></span><span></span>
-        </button>
+        <a href="signin.html" class="btn-pill">Sign in</a>
+        <a href="contact.html" class="btn-pill btn-primary">Contact Us</a>
       </div>
+
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="nav-mobile" id="navMobile">
+      <a href="how-it-works.html">How It Works</a>
+      <a href="about.html">About</a>
+      <a href="faq.html">FAQ</a>
+      <a href="contact.html"><strong>Contact</strong></a>
+      <a href="learn.html">Learn More</a>
+      <a href="signin.html" class="bold">Sign in</a>
     </div>
   </header>
 
   <main>
     <section class="section">
       <div class="container contact-layout">
+        <!-- LEFT CONTENT -->
         <div>
           <header class="section-header">
-            <p class="section-kicker">Contact &amp; support</p>
-            <h1 class="section-title">Let’s talk about your vehicles.</h1>
+            <p class="section-kicker">Contact &amp; Support</p>
+            <h1 class="section-title">Schedule a Demo or Get in Touch</h1>
             <p class="section-subtitle">
-              Whether you’re a driver, workshop, or fleet operator, we’d love to hear how
-              Fixif.ai can help. Share a bit about your setup and we’ll follow up.
+              Whether you run a shop or manage a fleet, we’d love to show you how Fixif.ai can streamline
+              diagnostics, plan repairs, and manage maintenance efficiently.
+              <br><br>
+              Not ready for a demo? No problem — fill out the form and we’ll get back to you with answers to your questions.
             </p>
           </header>
 
           <div class="card">
             <h3 class="card-title">Support &amp; inquiries</h3>
             <p class="card-text">
-              For support, partnerships, or pilot programs, reach us at:
+              For support, partnerships, or demos, reach us at:
             </p>
             <p class="card-text" style="margin-top: 0.6rem;">
               <strong>Email:</strong> support@fixifai.example<br />
@@ -83,38 +557,50 @@
             </p>
           </div>
         </div>
-        <div class="card contact-card">
+
+        <!-- FORM -->
+        <div class="card">
           <form class="form">
             <div class="form-row">
               <div class="form-field">
                 <label for="name">Name</label>
-                <input id="name" type="text" placeholder="Juan Dela Cruz" />
+                <input id="name" name="name" type="text" placeholder="Juan Dela Cruz" required />
               </div>
               <div class="form-field">
                 <label for="email">Email</label>
-                <input id="email" type="email" placeholder="you@example.com" />
+                <input id="email" name="email" type="email" placeholder="you@example.com" required />
               </div>
             </div>
+
+            <div class="form-field">
+              <label for="company">Shop / Fleet Name</label>
+              <input id="company" name="company" type="text" placeholder="e.g., ABC Auto Repair / XYZ Fleet" required />
+            </div>
+
             <div class="form-row">
               <div class="form-field">
-                <label for="role">I am a</label>
-                <input id="role" type="text" placeholder="Driver, shop owner, fleet manager..." />
+                <label for="vehicles">Number of Vehicles (optional)</label>
+                <input id="vehicles" name="vehicles" type="number" min="1" placeholder="e.g., 5, 25, 120" />
               </div>
               <div class="form-field">
-                <label for="cars">Number of vehicles</label>
-                <input id="cars" type="number" min="1" placeholder="e.g., 1, 10, 50" />
+                <label for="demo_time">Preferred Demo Date / Time (optional)</label>
+                <input id="demo_time" name="demo_time" type="datetime-local" />
               </div>
             </div>
+
             <div class="form-field">
-              <label for="message">How can we help?</label>
+              <label for="message">Message / Notes (optional)</label>
               <textarea
                 id="message"
-                rows="4"
-                placeholder="Tell us about your current car, workshop, or fleet setup and where Fixif.ai could help."
+                name="message"
+                rows="5"
+                placeholder="Tell us what you want to improve: diagnostics, repair planning, maintenance scheduling, reporting, etc."
               ></textarea>
+              <div class="hint">We’ll reply with next steps, demo options, or answers to your questions.</div>
             </div>
+
             <button type="submit" class="btn btn-primary">
-              Send message
+              Submit / Schedule My Demo
             </button>
           </form>
         </div>
@@ -134,9 +620,42 @@
   </footer>
 </div>
 
-<script src="theme.js"></script>
 <script>
+  // Footer year
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById("navToggle");
+  const navMobile = document.getElementById("navMobile");
+
+  if (navToggle && navMobile) {
+    navToggle.addEventListener("click", () => {
+      navToggle.classList.toggle("open");
+      navMobile.classList.toggle("open");
+    });
+  }
+
+  // Theme toggle with persistence
+  const root = document.documentElement;
+  const themeToggle = document.getElementById("themeToggle");
+  const themeIcon = document.getElementById("themeIcon");
+
+  function applyTheme(mode) {
+    root.setAttribute("data-theme", mode);
+    localStorage.setItem("fixif_theme", mode);
+    themeIcon.textContent = mode === "dark" ? "☀️" : "🌙";
+  }
+
+  const stored = localStorage.getItem("fixif_theme");
+  if (stored === "dark" || stored === "light") applyTheme(stored);
+  else applyTheme("light");
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+  }
 </script>
 </body>
 </html>

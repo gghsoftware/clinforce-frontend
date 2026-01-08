@@ -1,3 +1,4 @@
+<!-- chat.html (FIXED) -->
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
@@ -6,860 +7,283 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    /* ===========================
-       THEME TOKENS (BLACK & WHITE)
-       =========================== */
-
-    html[data-theme="light"] {
-      --bg: #f4f4f5;
-      --bg-alt: #ffffff;
-      --bg-soft: #e5e5e5;
-      --border-subtle: rgba(148, 148, 148, 0.4);
-
-      --text: #111111;
-      --text-muted: #4b4b4b;
-      --text-soft: #9f9f9f;
-      --text-on-accent: #f9f9f9;
-
-      --accent: #2f2f2f;
-      --accent-soft: rgba(47, 47, 47, 0.08);
-      --accent-strong: #000000;
-
-      --shadow-soft: 0 18px 45px rgba(15, 15, 15, 0.16);
-      --shadow-elevated: 0 22px 55px rgba(15, 15, 15, 0.25);
-
-      --header-blur-bg: rgba(249, 249, 249, 0.94);
-      --hero-gradient: radial-gradient(circle at top, #e5e5e5 0%, #f9f9f9 38%, #f9f9f9 100%);
-    }
-
-    html[data-theme="dark"] {
-      --bg: #050505;
-      --bg-alt: #050505;
-      --bg-soft: #111111;
-      --border-subtle: rgba(148, 148, 148, 0.35);
-
-      --text: #f5f5f5;
-      --text-muted: #d4d4d4;
-      --text-soft: #9f9f9f;
-      --text-on-accent: #050505;
-
-      --accent: #e5e5e5;
-      --accent-soft: rgba(229, 229, 229, 0.06);
-      --accent-strong: #ffffff;
-
-      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.9);
-      --shadow-elevated: 0 24px 65px rgba(0, 0, 0, 1);
-
-      --header-blur-bg: rgba(5, 5, 5, 0.92);
-      --hero-gradient: radial-gradient(circle at top, #050505 0%, #050505 40%, #050505 100%);
-    }
-
-    /* Fallback if JS hasn't run yet (match dark mode) */
-    html {
-      --bg: #050505;
-      --bg-alt: #050505;
-      --bg-soft: #111111;
-      --border-subtle: rgba(148, 148, 148, 0.35);
-
-      --text: #f5f5f5;
-      --text-muted: #d4d4d4;
-      --text-soft: #9f9f9f;
-      --text-on-accent: #050505;
-
-      --accent: #e5e5e5;
-      --accent-soft: rgba(229, 229, 229, 0.06);
-      --accent-strong: #ffffff;
-
-      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.9);
-      --shadow-elevated: 0 24px 65px rgba(0, 0, 0, 1);
-
-      --header-blur-bg: rgba(5, 5, 5, 0.92);
-      --hero-gradient: radial-gradient(circle at top, #050505 0%, #050505 40%, #050505 100%);
-    }
-
-    :root {
-      --radius-lg: 1.25rem;
-      --radius-md: 0.75rem;
-      --radius-sm: 0.5rem;
-      --radius-pill: 999px;
-
-      --header-height: 72px;
-      --content-max-width: 1120px;
-    }
-
-    /* ===========================
-       GLOBAL
-       =========================== */
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      margin: 0;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    p {
-      margin: 0;
-      line-height: 1.7;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    .container {
-      max-width: var(--content-max-width);
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    main {
-      flex: 1;
-    }
-
-    /* ===========================
-       HEADER & NAV
-       =========================== */
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      backdrop-filter: blur(18px);
-      background: var(--header-blur-bg);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .header-inner {
-      height: var(--header-height);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1.25rem;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      text-decoration: none;
-    }
-
-    .brand-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 0.9rem;
-      background: radial-gradient(circle at 0 0, var(--accent), var(--accent-strong));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.9rem;
-      color: var(--text-on-accent);
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0, 0, 0, 0.45);
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 0.05rem;
-    }
-
-    .brand-name {
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      letter-spacing: 0.18em;
-    }
-
-    .brand-tagline {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .site-nav {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .nav-link {
-      text-decoration: none;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-      position: relative;
-      padding-bottom: 0.2rem;
-    }
-
-    .nav-link::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -0.25rem;
-      width: 0;
-      height: 2px;
-      border-radius: 999px;
-      background: linear-gradient(to right, var(--accent), var(--accent-strong));
-      transition: width 0.16s ease;
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
-    .nav-link.is-active {
-      color: var(--accent-strong);
-    }
-
-    .nav-link.is-active::after {
-      width: 100%;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .theme-toggle {
-      border-radius: var(--radius-pill);
-      padding: 0.35rem 0.9rem;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-soft);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.78rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text);
-    }
-
-    .theme-toggle-icon,
-    .theme-toggle-label {
-      color: inherit;
-    }
-
-    html[data-theme="dark"] .theme-toggle {
-      color: #ffffff;
-    }
-
-    .theme-toggle-icon {
-      font-size: 0.9rem;
-    }
-
-    .nav-toggle {
-      display: none;
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-soft);
-      padding: 0;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .nav-toggle span {
-      width: 16px;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--text-muted);
-    }
-
-    /* ===========================
-       HERO
-       =========================== */
-
-    .hero {
-      background: var(--hero-gradient);
-      position: relative;
-      overflow: hidden;
-      padding: 4.5rem 0 4rem;
-    }
-
-    .hero-inner {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 3rem;
-      align-items: center;
-    }
-
-    .hero-badge {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--accent-strong);
-      margin-bottom: 0.75rem;
-    }
-
-    .hero-title {
-      font-size: clamp(2.4rem, 4vw, 3.1rem);
-      margin-bottom: 0.75rem;
-    }
-
-    .hero-title span {
-      color: var(--accent-strong);
-    }
-
-    .hero-text {
-      color: var(--text-muted);
-      max-width: 34rem;
-      margin-bottom: 1.35rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      font-size: 0.8rem;
-      color: var(--text-soft);
-    }
-
-    .hero-stat-label {
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.7rem;
-      color: var(--text-soft);
-    }
-
-    .hero-stat-value {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .hero-visual {
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-elevated);
-      padding: 1rem;
-      background: radial-gradient(circle at top, var(--accent-soft), var(--bg-alt));
-    }
-
-    .hero-visual-inner {
-      border-radius: 0.9rem;
-      overflow: hidden;
-      position: relative;
-      background: linear-gradient(to bottom right, rgba(0,0,0,0.96), rgba(0,0,0,0.92));
-    }
-
-    .hero-car {
-      height: 230px;
-      background-image: url("https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=1600");
-      background-size: cover;
-      background-position: center;
-      filter: grayscale(1) contrast(1.05);
-    }
-
-    .hero-overlay-card {
-      position: absolute;
-      right: 1rem;
-      bottom: 1rem;
-      border-radius: 0.75rem;
-      background: rgba(0,0,0,0.9);
-      border: 1px solid rgba(148,148,148,0.6);
-      padding: 0.8rem 0.9rem;
-      max-width: 260px;
-      font-size: 0.8rem;
-      color: #f3f3f3;
-    }
-
-    /* Section */
-
-    .section {
-      padding: 2.4rem 0;
-    }
-
-    .section--border-top {
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    .section-header {
-      margin-bottom: 1.6rem;
-    }
-
-    .section-kicker {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--accent-strong);
-      margin-bottom: 0.35rem;
-    }
-
-    .section-title {
-      font-size: 1.6rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .section-subtitle {
-      max-width: 36rem;
-      color: var(--text-muted);
-    }
-
-    /* Cards & grids */
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.5rem;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 2rem;
-    }
-
-    .card {
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-alt);
-      padding: 1.2rem 1.25rem;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .btn {
-      border-radius: var(--radius-pill);
-      border: 1px solid var(--border-subtle);
-      padding: 0.6rem 1.4rem;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      font-weight: 500;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      cursor: pointer;
-      background: var(--bg-alt);
-      color: var(--text);
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(to right, var(--accent), var(--accent-strong));
-      border-color: transparent;
-      color: var(--text-on-accent);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.32);
-    }
-
-    .btn-ghost {
-      background: var(--bg-alt);
-    }
-
-    .btn-soft {
-      border-radius: var(--radius-pill);
-      border: 1px dashed var(--border-subtle);
-      padding: 0.45rem 1rem;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: var(--bg-soft);
-      color: var(--text-soft);
-      cursor: pointer;
-    }
-
-    /* Footer */
-
-    .site-footer {
-      border-top: 1px solid var(--border-subtle);
-      padding: 1.6rem 0;
-      font-size: 0.8rem;
-      color: var(--text-soft);
-    }
-
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 1.25rem;
-    }
-
-    .footer-links a {
-      text-decoration: none;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-    }
-
-    /* ===========================
-       RESPONSIVE
-       =========================== */
-
-    @media (max-width: 960px) {
-      .hero-inner {
-        grid-template-columns: minmax(0, 1fr);
+    html[data-theme="light"]{
+      --bg:#f4f4f5;--bg-alt:#ffffff;--bg-soft:#e5e5e5;--border-subtle:rgba(148,148,148,.4);
+      --text:#111;--text-muted:#4b4b4b;--text-soft:#9f9f9f;--text-on-accent:#f9f9f9;
+      --accent:#2f2f2f;--accent-soft:rgba(47,47,47,.08);--accent-strong:#000;
+      --shadow-soft:0 18px 45px rgba(15,15,15,.16);--shadow-elevated:0 22px 55px rgba(15,15,15,.25);
+      --header-blur-bg:rgba(249,249,249,.94);--hero-gradient:radial-gradient(circle at top,#e5e5e5 0%,#f9f9f9 38%,#f9f9f9 100%);
+    }
+    html[data-theme="dark"]{
+      --bg:#050505;--bg-alt:#050505;--bg-soft:#111;--border-subtle:rgba(148,148,148,.35);
+      --text:#f5f5f5;--text-muted:#d4d4d4;--text-soft:#9f9f9f;--text-on-accent:#050505;
+      --accent:#e5e5e5;--accent-soft:rgba(229,229,229,.06);--accent-strong:#fff;
+      --shadow-soft:0 18px 45px rgba(0,0,0,.9);--shadow-elevated:0 24px 65px rgba(0,0,0,1);
+      --header-blur-bg:rgba(5,5,5,.92);--hero-gradient:radial-gradient(circle at top,#050505 0%,#050505 40%,#050505 100%);
+    }
+    html{
+      --bg:#050505;--bg-alt:#050505;--bg-soft:#111;--border-subtle:rgba(148,148,148,.35);
+      --text:#f5f5f5;--text-muted:#d4d4d4;--text-soft:#9f9f9f;--text-on-accent:#050505;
+      --accent:#e5e5e5;--accent-soft:rgba(229,229,229,.06);--accent-strong:#fff;
+      --shadow-soft:0 18px 45px rgba(0,0,0,.9);--shadow-elevated:0 24px 65px rgba(0,0,0,1);
+      --header-blur-bg:rgba(5,5,5,.92);--hero-gradient:radial-gradient(circle at top,#050505 0%,#050505 40%,#050505 100%);
+    }
+    :root{
+      --radius-lg:1.25rem;--radius-md:.75rem;--radius-sm:.5rem;--radius-pill:999px;
+      --header-height:72px;--content-max-width:1120px;
+    }
+
+    *,:before,:after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:var(--bg);color:var(--text);min-height:100vh;
+    }
+    h1,h2,h3,h4{margin:0;font-weight:700;letter-spacing:.02em}
+    p{margin:0;line-height:1.7}
+    a{color:inherit}
+
+    .container{max-width:var(--content-max-width);margin:0 auto;padding:0 1.5rem}
+    .page{min-height:100vh;display:flex;flex-direction:column}
+    main{flex:1}
+
+    .site-header{
+      position:sticky;top:0;z-index:40;backdrop-filter:blur(18px);
+      background:var(--header-blur-bg);border-bottom:1px solid var(--border-subtle);
+    }
+    .header-inner{
+      height:var(--header-height);display:flex;align-items:center;justify-content:space-between;gap:1.25rem;
+    }
+    .brand{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+    .brand-mark{
+      width:32px;height:32px;border-radius:.9rem;
+      background:radial-gradient(circle at 0 0,var(--accent),var(--accent-strong));
+      display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;color:var(--text-on-accent);
+      box-shadow:0 0 0 1px rgba(0,0,0,.8),0 0 24px rgba(0,0,0,.45);
+    }
+    .brand-text{display:flex;flex-direction:column;gap:.05rem}
+    .brand-name{text-transform:uppercase;font-size:.9rem;letter-spacing:.18em}
+    .brand-tagline{font-size:.75rem;color:var(--text-muted)}
+    .site-nav{display:flex;align-items:center;gap:1.5rem}
+    .nav-link{
+      text-decoration:none;font-size:.85rem;text-transform:uppercase;letter-spacing:.16em;color:var(--text-muted);
+      position:relative;padding-bottom:.2rem;
+    }
+    .nav-link:after{
+      content:"";position:absolute;left:0;bottom:-.25rem;width:0;height:2px;border-radius:999px;
+      background:linear-gradient(to right,var(--accent),var(--accent-strong));transition:width .16s ease;
+    }
+    .nav-link:hover:after{width:100%}
+    .nav-link.is-active{color:var(--accent-strong)}
+    .nav-link.is-active:after{width:100%}
+
+    .header-actions{display:flex;align-items:center;gap:.75rem}
+    .theme-toggle{
+      border-radius:var(--radius-pill);padding:.35rem .9rem;border:1px solid var(--border-subtle);
+      background:var(--bg-soft);display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;
+      cursor:pointer;text-transform:uppercase;letter-spacing:.12em;color:var(--text);
+    }
+    html[data-theme="dark"] .theme-toggle{color:#fff}
+    .theme-toggle-icon{font-size:.9rem}
+    .nav-toggle{
+      display:none;width:38px;height:38px;border-radius:999px;border:1px solid var(--border-subtle);
+      background:var(--bg-soft);padding:0;justify-content:center;align-items:center;flex-direction:column;gap:5px;
+    }
+    .nav-toggle span{width:16px;height:2px;border-radius:999px;background:var(--text-muted)}
+
+    .hero{
+      background:var(--hero-gradient);position:relative;overflow:hidden;padding:1.35rem 0 1.25rem;
+      border-bottom:1px solid var(--border-subtle);
+    }
+    .hero-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .hero-title{font-size:clamp(1.6rem,2.6vw,2.1rem);margin-bottom:.35rem}
+    .hero-subtext{color:var(--text-muted);max-width:52rem}
+
+    .welcome-top{
+      display:flex;align-items:center;gap:.85rem;justify-content:flex-end;min-width:320px;
+    }
+    .welcome-logo{
+      width:56px;height:56px;border-radius:18px;overflow:hidden;border:1px solid var(--border-subtle);
+      background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    }
+    .welcome-logo img{width:100%;height:100%;object-fit:cover;display:none}
+    .welcome-logo span{font-weight:900;opacity:.92}
+    .welcome-title{
+      font-size:clamp(1.75rem,2.6vw,2.45rem);
+      font-weight:900;letter-spacing:.02em;line-height:1.05;text-align:right;white-space:nowrap;
+    }
+    .welcome-sub{
+      color:var(--text-muted);margin-top:.35rem;font-size:.9rem;letter-spacing:.14em;
+      text-transform:uppercase;text-align:right;white-space:nowrap;
+    }
+
+    .section{padding:2.2rem 0}
+    .section-header{margin-bottom:1.4rem}
+    .section-kicker{font-size:.8rem;text-transform:uppercase;letter-spacing:.18em;color:var(--accent-strong);margin-bottom:.35rem}
+    .section-title{font-size:1.5rem;margin-bottom:.35rem}
+    .section-subtitle{max-width:50rem;color:var(--text-muted)}
+
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.9rem}
+
+    .card{
+      border-radius:var(--radius-lg);border:1px solid var(--border-subtle);background:var(--bg-alt);
+      padding:1.2rem 1.25rem;box-shadow:var(--shadow-soft);display:flex;flex-direction:column;
+    }
+    .btn{
+      border-radius:var(--radius-pill);border:1px solid var(--border-subtle);padding:.6rem 1.2rem;
+      font-size:.85rem;text-transform:uppercase;letter-spacing:.12em;font-weight:500;
+      display:inline-flex;align-items:center;justify-content:center;gap:.4rem;cursor:pointer;
+      background:var(--bg-alt);color:var(--text);text-decoration:none;
+    }
+    .btn-primary{
+      background:linear-gradient(to right,var(--accent),var(--accent-strong));border-color:transparent;color:var(--text-on-accent);
+      box-shadow:0 14px 32px rgba(0,0,0,.32);
+    }
+    .btn-ghost{background:var(--bg-alt)}
+    .btn-soft{
+      border-radius:var(--radius-pill);border:1px dashed var(--border-subtle);padding:.45rem .95rem;
+      font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;background:var(--bg-soft);
+      color:var(--text-soft);cursor:pointer;
+    }
+    .btn-danger{border-color:rgba(248,113,113,.55);background:rgba(248,113,113,.08);color:#fecaca}
+    .btn-success{border-color:rgba(34,197,94,.55);background:rgba(34,197,94,.10);color:#bbf7d0}
+
+    .site-footer{border-top:1px solid var(--border-subtle);padding:1.6rem 0;font-size:.8rem;color:var(--text-soft)}
+    .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .footer-links{display:flex;gap:1.25rem}
+    .footer-links a{text-decoration:none;font-size:.78rem;text-transform:uppercase;letter-spacing:.14em}
+
+    @media (max-width:768px){
+      .site-nav{
+        position:absolute;inset:var(--header-height) 0 auto 0;background:var(--header-blur-bg);
+        border-bottom:1px solid var(--border-subtle);
+        flex-direction:column;align-items:flex-start;gap:.75rem;padding:.8rem 1.5rem 1rem;
+        transform:translateY(-140%);opacity:0;pointer-events:none;transition:transform .16s ease-out,opacity .16s ease-out;
       }
-
-      .hero-visual {
-        order: -1;
-        margin-bottom: 2rem;
-      }
-
-      .grid-3 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+      .site-nav.is-open{transform:translateY(0);opacity:1;pointer-events:auto}
+      .nav-toggle{display:inline-flex}
+      .header-inner{padding-inline:1.2rem}
+      .grid-3,.grid-2{grid-template-columns:minmax(0,1fr)}
+      .welcome-top{justify-content:flex-start;min-width:unset}
+      .welcome-title,.welcome-sub{text-align:left;white-space:normal}
     }
 
-    @media (max-width: 768px) {
-      .site-nav {
-        position: absolute;
-        inset: var(--header-height) 0 auto 0;
-        background: var(--header-blur-bg);
-        border-bottom: 1px solid var(--border-subtle);
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-        padding: 0.8rem 1.5rem 1rem;
-        transform: translateY(-140%);
-        opacity: 0;
-        pointer-events: none;
-        transition: transform 0.16s ease-out, opacity 0.16s ease-out;
-      }
+    .assistant-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+    .lookup-row{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+    .lookup-row input{min-width:240px;flex:1}
 
-      .site-nav.is-open {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-      }
-
-      .nav-toggle {
-        display: inline-flex;
-      }
-
-      .header-inner {
-        padding-inline: 1.2rem;
-      }
-
-      .grid-3 {
-        grid-template-columns: minmax(0, 1fr);
-      }
+    .status-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem}
+    .status-chip{
+      border-radius:999px;border:1px solid var(--border-subtle);padding:.35rem .7rem;font-size:.72rem;
+      text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);cursor:pointer;background:var(--bg-alt);user-select:none;
+    }
+    .status-chip.active{color:var(--accent-strong);border-color:rgba(148,148,148,.75);box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+    .workflow-note{
+      margin-top:.75rem;border-radius:var(--radius-md);border:1px dashed var(--border-subtle);
+      background:var(--bg-soft);padding:.75rem .85rem;color:var(--text-muted);font-size:.9rem;line-height:1.6;
     }
 
-    /* ===========================
-       CHAT PAGE STYLES
-       =========================== */
+    .chat-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:1.5rem;align-items:flex-start}
+    @media (max-width:900px){.chat-layout{grid-template-columns:minmax(0,1fr)}}
 
-    .chat-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: 1.5rem;
-      align-items: flex-start;
+    fieldset{border:none;padding:0;margin:0 0 1rem}
+    label{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-soft)}
+    input,textarea,select{
+      width:100%;border-radius:var(--radius-md);border:1px solid var(--border-subtle);
+      padding:.55rem .7rem;background:var(--bg);color:var(--text);font-size:.9rem;outline:none;
+    }
+    input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+
+    .section-label{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-bottom:.4rem}
+    .section-label .left{display:flex;align-items:center;gap:.5rem;font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;color:var(--text-soft)}
+    .step-badge{
+      display:inline-flex;align-items:center;justify-content:center;min-width:1.4rem;height:1.4rem;
+      border-radius:999px;border:1px solid var(--border-subtle);font-size:.72rem;font-weight:600;color:var(--text-soft);
+    }
+    .inline-actions{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:flex-end}
+    .hint{font-size:.78rem;color:var(--text-soft);margin-top:.35rem}
+    .status-msg{margin-top:.7rem;font-size:.85rem}
+    .status-msg.error{
+      color:#fecaca;background:rgba(248,113,113,.08);
+      border-radius:var(--radius-md);padding:.55rem .65rem;border:1px solid rgba(248,113,113,.35);
+    }
+    .status-msg.loading{color:var(--accent-strong)}
+
+    .result-placeholder{font-size:.9rem;color:var(--text-soft)}
+    .result-block{
+      border-radius:var(--radius-md);border:1px solid var(--border-subtle);background:var(--bg);
+      padding:.8rem .9rem;margin-bottom:.8rem;
+    }
+    .result-block h3{
+      font-size:.92rem;margin:0 0 .35rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent-strong);
+    }
+    .result-text{font-size:.92rem;color:var(--text-muted);line-height:1.6}
+
+    .kv{display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem}
+    .kv-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+    @media (max-width:560px){.kv-row{grid-template-columns:1fr}}
+
+    .pill{
+      border-radius:999px;padding:.1rem .55rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;
+      border:1px solid var(--border-subtle);color:var(--text-soft);display:inline-flex;align-items:center;justify-content:center;
+      gap:.35rem;white-space:nowrap;
     }
 
-    @media (max-width: 900px) {
-      .chat-layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
+    .cause-item{
+      border-radius:var(--radius-md);background:var(--bg-alt);padding:.65rem .7rem;margin-bottom:.6rem;border:1px solid var(--border-subtle);
+    }
+    .cause-header{display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem;margin-bottom:.35rem}
+    .cause-title{font-size:.98rem;font-weight:700;color:var(--text)}
+    .likelihood-high{border:2px solid rgba(248,113,113,.8)}
+    .likelihood-medium{border:2px solid rgba(251,146,60,.8)}
+    .likelihood-low{border:2px solid rgba(34,197,94,.55)}
+
+    .divider{height:1px;background:var(--border-subtle);margin:.8rem 0}
+    .result-actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.7rem}
+    .linkish{
+      font-size:.82rem;color:var(--accent-strong);text-decoration:none;border-bottom:1px solid rgba(148,148,148,.55);
+      padding-bottom:2px;cursor:pointer;
+    }
+    .meta-line{margin-top:.55rem;font-size:.78rem;color:var(--text-soft)}
+    .file-input{
+      padding:.55rem .7rem;border-radius:var(--radius-md);border:1px dashed var(--border-subtle);
+      background:var(--bg-soft);color:var(--text-soft);font-size:.9rem;
+    }
+    pre{
+      white-space:pre-wrap;word-wrap:break-word;font-size:.78rem;background:var(--bg);padding:.6rem;border-radius:var(--radius-md);
+      border:1px solid var(--border-subtle);max-height:260px;overflow:auto;margin:0;
     }
 
-    .chat-card {
-      padding: 1.1rem 1.2rem 1.25rem;
+    .progress-wrap{display:flex;flex-direction:column;gap:.45rem}
+    .progress-top{display:flex;align-items:center;justify-content:space-between;gap:.75rem}
+    .progress-track{
+      height:10px;border-radius:999px;border:1px solid var(--border-subtle);background:rgba(255,255,255,.05);overflow:hidden;
     }
-
-    fieldset {
-      border: none;
-      padding: 0;
-      margin: 0 0 1rem;
+    .progress-bar{
+      height:100%;
+      width:0%;
+      background:linear-gradient(to right,var(--accent),var(--accent-strong));
+      border-radius:999px;
+      transition:width .18s ease;
     }
+    .progress-pct{font-size:.82rem;color:var(--text-muted);white-space:nowrap}
 
-    label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-soft);
-    }
-
-    input,
-    textarea,
-    select {
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-subtle);
-      padding: 0.55rem 0.7rem;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 0.9rem;
-      outline: none;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
-    }
-
-    .chat-section-label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-soft);
-      margin-bottom: 0.35rem;
-    }
-
-    .step-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 1.4rem;
-      height: 1.4rem;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--text-soft);
-    }
-
-    .optional-tag {
-      font-size: 0.7rem;
-      color: var(--text-soft);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    .chat-actions-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      margin-top: 0.35rem;
-    }
-
-    .chat-actions-row small {
-      font-size: 0.75rem;
-      color: var(--text-soft);
-    }
-
-    .chat-actions-buttons {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .status {
-      margin-top: 0.6rem;
-      font-size: 0.78rem;
-    }
-
-    .status.error {
-      color: #fecaca;
-      background: rgba(248, 113, 113, 0.08);
-      border-radius: var(--radius-md);
-      padding: 0.45rem 0.6rem;
-      border: 1px solid rgba(248, 113, 113, 0.35);
-    }
-
-    .status.loading {
-      color: var(--accent-strong);
-    }
-
-    .result-placeholder {
-      font-size: 0.82rem;
-      color: var(--text-soft);
-    }
-
-    .result-block {
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-subtle);
-      background: var(--bg);
-      padding: 0.7rem 0.85rem;
-      margin-bottom: 0.7rem;
-    }
-
-    .result-block h3 {
-      font-size: 0.9rem;
-      margin: 0 0 0.3rem;
-    }
-
-    .result-text {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .cause-item,
-    .part-item {
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-alt);
-      padding: 0.5rem 0.6rem;
-      margin-bottom: 0.45rem;
-    }
-
-    .cause-header,
-    .part-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .pill {
-      border-radius: 999px;
-      padding: 0.1rem 0.55rem;
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-soft);
-    }
-
-    .pill-urgency {
-      border-color: rgba(148,148,148,0.7);
-      color: var(--accent-strong);
-    }
-
-    .pill-likelihood {
-      border-color: rgba(148,148,148,0.7);
-      color: var(--text-muted);
-    }
-
-    .list {
-      padding-left: 1rem;
-      margin: 0;
-    }
-
-    .list li {
-      font-size: 0.88rem;
-      margin-bottom: 0.15rem;
-      color: var(--text-muted);
-    }
-
-    .result-warning {
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(245, 158, 11, 0.7);
-      background: rgba(245, 158, 11, 0.12);
-      padding: 0.6rem 0.75rem;
-      margin-bottom: 0.6rem;
-      font-size: 0.88rem;
-      color: #fde68a;
-    }
-
-    .result-meta {
-      margin-top: 0.5rem;
-      font-size: 0.75rem;
-      color: var(--text-soft);
-    }
-
-    pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      font-size: 0.78rem;
-      background: var(--bg);
-      padding: 0.6rem;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-subtle);
-      max-height: 260px;
-      overflow: auto;
-    }
-
-    details.more-block {
-      border-radius: var(--radius-md);
-      border: 1px dashed var(--border-subtle);
-      background: var(--bg-soft);
-      padding: 0.55rem 0.75rem;
-      margin-top: 0.5rem;
-    }
-
-    details.more-block summary {
-      list-style: none;
-      cursor: pointer;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--text-soft);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    details.more-block summary::-webkit-details-marker {
-      display: none;
-    }
-
-    details.more-block summary::after {
-      content: "+";
-      font-size: 0.9rem;
-    }
-
-    details.more-block[open] summary::after {
-      content: "–";
-    }
-
-    .more-block-inner {
-      margin-top: 0.5rem;
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    @media (max-width: 768px) {
-      .chat-actions-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .chat-actions-buttons {
-        width: 100%;
-        justify-content: flex-start;
-      }
+    .disclaimer{
+      margin-top:.85rem;
+      border-radius:var(--radius-md);
+      border:1px dashed var(--border-subtle);
+      background:var(--bg-soft);
+      padding:.75rem .85rem;
+      color:var(--text-muted);
+      font-size:.85rem;
+      line-height:1.55;
     }
   </style>
 </head>
+
 <body>
   <div class="page">
-    <!-- HEADER -->
     <header class="site-header">
       <div class="container header-inner">
         <a href="index.html" class="brand">
@@ -889,341 +313,305 @@
     </header>
 
     <main>
-      <!-- HERO -->
       <section class="hero">
-        <div class="container hero-inner">
-          <div>
-            <div class="hero-badge">AI SERVICE INTAKE · LIVE DEMO</div>
-            <h1 class="hero-title">
-              Turn noisy car complaints into a
-              <span>clean diagnosis plan.</span>
-            </h1>
-            <p class="hero-text">
-              Fixif.ai helps you capture customer and vehicle details, then uses AI to draft a
-              mechanic-friendly summary, probable causes, DIY checks, workshop actions,
-              safety notes, and a preliminary parts list.
-            </p>
-            <div class="hero-actions">
-              <a href="#assistant" class="btn btn-primary">Try the AI assistant</a>
-              <a href="index.html" class="btn btn-ghost">Back to main site</a>
-            </div>
-            <div class="hero-meta">
-              <div>
-                <div class="hero-stat-label">Built for</div>
-                <div class="hero-stat-value">Workshops &amp; service advisors</div>
+        <div class="container">
+          <div class="hero-inner">
+            <div class="welcome-top">
+              <div class="welcome-logo">
+                <img id="businessLogoImg" src="" alt="Logo" />
+                <span id="businessLogoFallback">Fx</span>
               </div>
               <div>
-                <div class="hero-stat-label">Output</div>
-                <div class="hero-stat-value">Summary · Causes · Parts</div>
+                <div class="welcome-title" id="welcomeTitle">Welcome, —</div>
               </div>
             </div>
           </div>
-
-          <aside class="hero-visual">
-            <div class="hero-visual-inner">
-              <div class="hero-car"></div>
-              <div class="hero-overlay-card">
-                <strong>Example intake</strong>
-                <p style="margin-top: 0.35rem;">
-                  “Engine makes a knocking sound on cold start, check engine light sometimes turns on,
-                  and fuel consumption is higher than usual.”
-                </p>
-                <p style="margin-top: 0.5rem; font-size:0.78rem; color:#e5e5e5;">
-                  AI returns a structured summary, ranked causes, quick checks, workshop steps,
-                  safety warnings, and parts to quote.
-                </p>
-              </div>
-            </div>
-          </aside>
         </div>
       </section>
 
-      <!-- ASSISTANT SECTION -->
-      <section class="section section--border-top" id="assistant">
+      <section class="section" id="assistant">
         <div class="container">
           <div class="section-header">
             <div class="section-kicker">Interactive workspace</div>
-            <h2 class="section-title">AI intake &amp; diagnosis assistant</h2>
+            <h2 class="section-title">Service intake &amp; AI draft</h2>
             <p class="section-subtitle">
-              Just fill in the basics, describe the symptoms, and let Fixif.ai generate a structured, mechanic-ready plan.
-              Extra fields are optional and tucked away so the form stays clean.
+              Look up by phone first. If the customer exists, details and history will auto-fill. If not, fields stay blank.
             </p>
+          </div>
+
+          <div class="card" style="margin-bottom:1.2rem;">
+            <div class="assistant-top">
+              <div style="display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap;">
+                <div>
+                  <div style="font-size:.78rem; text-transform:uppercase; letter-spacing:.16em; color:var(--text-soft);">
+                    Business profile
+                  </div>
+                  <div class="hint" style="margin-top:.35rem; max-width:34rem;">
+                    Upload logo / change business name to update the Welcome header.
+                  </div>
+
+                  <div class="mini-actions" style="margin-top:0.6rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+                    <input id="logoInput" type="file" accept="image/jpeg,image/png,image/webp" style="display:none;" />
+                    <button class="btn btn-ghost" type="button" id="uploadLogoBtn">Upload Logo</button>
+                    <button class="btn btn-ghost" type="button" id="editBusinessNameBtn">Edit Business Name</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="lookup-row">
+                <input id="lookupPhone" type="text" placeholder="Enter Phone Number" />
+                <button class="btn btn-primary" type="button" id="lookupBtn">Lookup</button>
+                <button class="btn btn-ghost" type="button" id="newCustomerBtn">New Intake</button>
+              </div>
+            </div>
+
+            <div class="status-tabs" role="tablist" aria-label="Job status">
+              <div class="status-chip active" data-status="in_progress" id="statusChipInProgress">In Progress</div>
+              <div class="status-chip" data-status="completed" id="statusChipCompleted">Completed</div>
+              <div class="status-chip" data-status="cancelled" id="statusChipCancelled">Cancelled</div>
+            </div>
+
+            <div class="workflow-note" id="workflowNote">
+              <strong>In Progress</strong><br/>
+              • Job created and AI diagnostic generated<br/>
+              • Mechanic is reviewing/editing AI suggestions (tests, labor, notes)
+            </div>
+
+            <div id="topStatus" class="status-msg" style="margin-top:0.8rem;"></div>
           </div>
 
           <div class="chat-layout">
             <!-- LEFT: FORM -->
-            <section class="card chat-card">
-              <form id="diagnosisForm">
-                <!-- Step 1: Customer Details -->
+            <section class="card">
+              <form id="intakeForm">
+                <!-- Customer Details -->
                 <fieldset>
-                  <div class="chat-section-label">
-                    <span class="step-badge">1</span>
-                    <span>Customer details</span>
+                  <div class="section-label">
+                    <div class="left">
+                      <span class="step-badge">1</span>
+                      <span>Customer Details</span>
+                    </div>
+                    <div class="inline-actions">
+                      <span class="pill" id="repeatCustomerPill" style="display:none;">Repeat Customer</span>
+                    </div>
                   </div>
-                  <div style="display:flex; flex-direction:column; gap:0.9rem;">
+
+                  <div class="grid-2">
                     <div>
                       <label for="fullName">Full Name</label>
-                      <input
-                        type="text"
-                        id="fullName"
-                        name="fullName"
-                        required
-                        placeholder="Customer full name"
-                      />
+                      <input type="text" id="fullName" name="fullName" placeholder="Customer full name" />
                     </div>
                     <div>
-                      <label for="phonePrimary">Mobile Number</label>
-                      <input
-                        type="text"
-                        id="phonePrimary"
-                        name="phonePrimary"
-                        placeholder="Primary contact number"
-                      />
+                      <label for="phone">Phone Number</label>
+                      <input type="text" id="phone" name="phone" placeholder="09xxxxxxxxx" />
                     </div>
-
-                    <details class="more-block">
-                      <summary>
-                        More customer details
-                        <span class="optional-tag">Optional</span>
-                      </summary>
-                      <div class="more-block-inner">
-                        <div>
-                          <label for="phoneAlternate">Alternate Number</label>
-                          <input
-                            type="text"
-                            id="phoneAlternate"
-                            name="phoneAlternate"
-                            placeholder="Backup contact (optional)"
-                          />
-                        </div>
-                        <div>
-                          <label for="email">Email</label>
-                          <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="For invoice / updates"
-                          />
-                        </div>
-                        <div>
-                          <label for="preferredContactMethod">Preferred Contact</label>
-                          <select id="preferredContactMethod" name="preferredContactMethod">
-                            <option value="text">Text</option>
-                            <option value="call">Call</option>
-                            <option value="email">Email</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label for="address">Home Address</label>
-                          <textarea
-                            id="address"
-                            name="address"
-                            rows="2"
-                            placeholder="For invoices or warranty records"
-                          ></textarea>
-                        </div>
-                      </div>
-                    </details>
                   </div>
-                </fieldset>
 
-                <!-- Step 2: Vehicle Details -->
-                <fieldset>
-                  <div class="chat-section-label">
-                    <span class="step-badge">2</span>
-                    <span>Vehicle details</span>
+                  <div class="grid-2" style="margin-top:0.9rem;">
+                    <div>
+                      <label for="email">Email</label>
+                      <input type="email" id="email" name="email" placeholder="Optional" />
+                    </div>
+                    <div>
+                      <label for="preferredContactMethod">Preferred Contact Method</label>
+                      <select id="preferredContactMethod" name="preferredContactMethod">
+                        <option value="text" selected>Text</option>
+                        <option value="email">Email</option>
+                      </select>
+                    </div>
                   </div>
-                  <div style="display:flex; flex-direction:column; gap:0.9rem;">
+
+                  <div class="hint" id="historyHint" style="display:none;"></div>
+
+                  <div id="repeatExtras" style="display:none; margin-top:0.9rem;">
                     <div class="grid-2" style="gap:0.9rem;">
                       <div>
-                        <label for="year">Year</label>
-                        <input
-                          type="number"
-                          id="year"
-                          name="year"
-                          placeholder="e.g. 2015"
-                        />
+                        <label for="vehicleSelect">Vehicle(s) on file</label>
+                        <select id="vehicleSelect">
+                          <option value="">Select vehicle</option>
+                        </select>
+                        <div class="hint" id="vehicleSelectHint" style="margin-top:0.5rem;"></div>
                       </div>
+
                       <div>
-                        <label for="make">Make</label>
-                        <input
-                          type="text"
-                          id="make"
-                          name="make"
-                          placeholder="e.g. Toyota, Honda"
-                        />
+                        <label>History</label>
+                        <div id="historyList" style="display:flex; flex-direction:column; gap:0.6rem;"></div>
+                        <div class="hint" id="historyListHint" style="margin-top:0.5rem;"></div>
                       </div>
                     </div>
+                  </div>
+                </fieldset>
+
+                <!-- Vehicle Details -->
+                <fieldset>
+                  <div class="section-label">
+                    <div class="left">
+                      <span class="step-badge">2</span>
+                      <span>Vehicle Details</span>
+                    </div>
+                    <div class="inline-actions">
+                      <button type="button" class="btn-soft" id="decodeVinBtn">Decode VIN</button>
+                    </div>
+                  </div>
+
+                  <div class="grid-2">
+                    <div>
+                      <label for="vin">VIN (optional)</label>
+                      <input type="text" id="vin" name="vin" placeholder="17-character VIN (optional)" />
+                    </div>
+                    <div>
+                      <label for="plate">Plate Number</label>
+                      <input type="text" id="plate" name="plate" placeholder="ABC 1234" />
+                    </div>
+                  </div>
+
+                  <div class="grid-2" style="margin-top:0.9rem;">
+                    <div>
+                      <label for="year">Year</label>
+                      <input type="text" id="year" name="year" placeholder="e.g. 2015" />
+                    </div>
+                    <div>
+                      <label for="make">Make</label>
+                      <input type="text" id="make" name="make" placeholder="e.g. Toyota" />
+                    </div>
+                  </div>
+
+                  <div class="grid-2" style="margin-top:0.9rem;">
                     <div>
                       <label for="model">Model</label>
-                      <input
-                        type="text"
-                        id="model"
-                        name="model"
-                        placeholder="e.g. Vios 1.3 E"
-                      />
+                      <input type="text" id="model" name="model" placeholder="e.g. Vios" />
                     </div>
                     <div>
-                      <label for="engineOrTransmission">Engine / Transmission</label>
-                      <input
-                        type="text"
-                        id="engineOrTransmission"
-                        name="engineOrTransmission"
-                        placeholder="e.g. 1.3L Gasoline A/T"
-                      />
+                      <label for="engine">Engine</label>
+                      <input type="text" id="engine" name="engine" placeholder="Auto-filled if decoded" />
+                    </div>
+                  </div>
+
+                  <div class="grid-2" style="margin-top:0.9rem;">
+                    <div>
+                      <label for="transmission">Transmission</label>
+                      <select id="transmission" name="transmission">
+                        <option value="" selected>—</option>
+                        <option value="AT">AT</option>
+                        <option value="MT">MT</option>
+                        <option value="CVT">CVT</option>
+                        <option value="DCT">DCT</option>
+                        <option value="Other">Other</option>
+                      </select>
                     </div>
                     <div>
-                      <label for="mileage">Odometer (km)</label>
-                      <input
-                        type="number"
-                        id="mileage"
-                        name="mileage"
-                        placeholder="Approximate mileage"
-                      />
+                      <label for="dropOffDate">Drop-off Date</label>
+                      <input type="date" id="dropOffDate" name="dropOffDate" />
+                    </div>
+                  </div>
+
+                  <div class="hint" id="vinStatus"></div>
+                </fieldset>
+
+                <!-- Diagnostic Data -->
+                <fieldset>
+                  <div class="section-label">
+                    <div class="left">
+                      <span class="step-badge">3</span>
+                      <span>Vehicle Diagnostic Data</span>
+                    </div>
+                  </div>
+
+                  <div style="display:flex; flex-direction:column; gap:0.8rem;">
+                    <div>
+                      <label for="obd2Data">OBD-II Data</label>
+                      <textarea id="obd2Data" name="obd2Data" rows="3" placeholder="Paste scan tool data, DTC codes, freeze frame, etc."></textarea>
                     </div>
 
-                    <details class="more-block">
-                      <summary>
-                        More vehicle details
-                        <span class="optional-tag">Optional</span>
-                      </summary>
-                      <div class="more-block-inner">
-                        <div>
-                          <label for="color">Color</label>
-                          <input
-                            type="text"
-                            id="color"
-                            name="color"
-                            placeholder="e.g. Silver"
-                          />
-                        </div>
-                        <div>
-                          <label for="vin">VIN</label>
-                          <input
-                            type="text"
-                            id="vin"
-                            name="vin"
-                            placeholder="Vehicle Identification Number"
-                          />
-                        </div>
-                        <div>
-                          <label for="plate">Plate Number</label>
-                          <input
-                            type="text"
-                            id="plate"
-                            name="plate"
-                            placeholder="License plate"
-                          />
-                        </div>
-                        <div>
-                          <label for="dropOffDateTime">Drop-off Date/Time</label>
-                          <input
-                            type="datetime-local"
-                            id="dropOffDateTime"
-                            name="dropOffDateTime"
-                          />
-                        </div>
+                    <div>
+                      <label for="symptoms">Describe the Symptoms</label>
+                      <textarea id="symptoms" name="symptoms" rows="4" placeholder="Describe customer complaint and observed symptoms"></textarea>
+                    </div>
+
+                    <div>
+                      <label for="mediaUpload">Upload a photo or video</label>
+                      <input id="mediaUpload" class="file-input" type="file" accept="image/*,video/*" multiple />
+                      <div class="hint">Uploads are stored locally in the browser for now; hook to your uploader later to convert to URLs.</div>
+                      <div class="inline-actions" style="margin-top:0.6rem;">
+                        <button class="btn btn-ghost" type="button" id="uploadMediaBtn">Upload Media</button>
                       </div>
-                    </details>
-                  </div>
-                </fieldset>
-
-                <!-- Step 3: Symptoms -->
-                <fieldset>
-                  <div class="chat-section-label">
-                    <span class="step-badge">3</span>
-                    <span>Symptoms &amp; notes</span>
-                  </div>
-                  <div style="display:flex;flex-direction:column;gap:0.75rem;">
-                    <div>
-                      <label for="symptoms">Describe the symptoms</label>
-                      <textarea
-                        id="symptoms"
-                        name="symptoms"
-                        rows="4"
-                        required
-                        placeholder="Example: Engine makes a knocking sound on cold start for 2–3 minutes, check engine light sometimes turns on, fuel consumption is higher than usual..."
-                      ></textarea>
-                    </div>
-                    <div>
-                      <label for="additionalNotes">Story / context (optional)</label>
-                      <textarea
-                        id="additionalNotes"
-                        name="additionalNotes"
-                        rows="2"
-                        placeholder="When did this start? After a long drive, flood, or repair? Any warning lights or smells?"
-                      ></textarea>
+                      <div class="hint" id="mediaUploadStatus" style="display:none; margin-top:0.5rem;"></div>
+                      <div class="hint" id="mediaUrls" style="display:none; margin-top:0.5rem;"></div>
                     </div>
                   </div>
                 </fieldset>
 
-                <!-- AI Preferences -->
+                <!-- AI Output Style -->
                 <fieldset>
-                  <div class="chat-section-label">
-                    <span class="step-badge">4</span>
-                    <span>AI output style</span>
+                  <div class="section-label">
+                    <div class="left">
+                      <span class="step-badge">4</span>
+                      <span>AI Output Style</span>
+                    </div>
                   </div>
-                  <div class="grid-3" style="gap: 0.9rem;">
+
+                  <div class="grid-3">
                     <div>
                       <label for="detailLevel">Detail Level</label>
                       <select id="detailLevel" name="detailLevel">
-                        <option value="brief">Brief</option>
-                        <option value="normal" selected>Normal</option>
-                        <option value="detailed">Detailed</option>
+                        <option value="Brief">Brief</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Detailed" selected>Detailed</option>
                       </select>
                     </div>
+
                     <div>
                       <label for="language">Language</label>
                       <select id="language" name="language">
                         <option value="English" selected>English</option>
-                        <option value="Taglish">Taglish</option>
+                        <option value="Mandarin Chinese">Mandarin Chinese</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="French">French</option>
+                        <option value="Modern Standard Arabic">Modern Standard Arabic</option>
+                        <option value="Bengali">Bengali</option>
+                        <option value="Portuguese">Portuguese</option>
+                        <option value="Russian">Russian</option>
+                        <option value="Urdu">Urdu</option>
                       </select>
                     </div>
+
                     <div>
                       <label for="tone">Tone</label>
                       <select id="tone" name="tone">
-                        <option value="friendly, non-technical but honest" selected>
-                          Friendly &amp; simple
-                        </option>
-                        <option value="professional, service-advisor style">
-                          Professional
-                        </option>
-                        <option value="detailed, technical but still clear">
-                          More technical
-                        </option>
+                        <option value="More Technical" selected>More Technical</option>
+                        <option value="Professional">Professional</option>
+                        <option value="Friendly &amp; simple">Friendly &amp; simple</option>
                       </select>
                     </div>
                   </div>
                 </fieldset>
 
-                <!-- Actions -->
-                <div class="chat-actions-row">
-                  <small>
-                    AI assistant only. Final diagnosis and road-worthiness must be checked by a licensed mechanic.
-                  </small>
-                  <div class="chat-actions-buttons">
-                    <button type="button" class="btn-soft" id="demoBtn">Use demo data</button>
-                    <button type="button" class="btn btn-ghost" id="clearBtn">Clear</button>
-                    <button type="submit" class="btn btn-primary" id="submitBtn">
-                      Generate AI Diagnosis
-                    </button>
-                  </div>
+                <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center; justify-content:flex-end;">
+                  <button type="button" class="btn-soft" id="demoBtn">Use demo data</button>
+                  <button type="button" class="btn btn-ghost" id="clearBtn">Clear</button>
+                  <button type="button" class="btn btn-primary" id="generateBtn">Generate AI</button>
                 </div>
 
-                <div id="status" class="status"></div>
+                <div id="formStatus" class="status-msg"></div>
               </form>
             </section>
 
             <!-- RIGHT: RESULT -->
-            <section class="card chat-card">
-              <div class="chat-section-label">
-                <span class="step-badge">▶</span>
-                <span>AI diagnosis result</span>
+            <section class="card">
+              <div class="section-label">
+                <div class="left">
+                  <span class="step-badge">▶</span>
+                  <span>Intake Dashboard</span>
+                </div>
+                <div class="inline-actions">
+                  <span class="pill" id="jobIdPill" style="display:none;">Job: —</span>
+                </div>
               </div>
+
               <div id="resultContainer">
                 <p class="result-placeholder">
-                  Fill out the basics on the left and click <strong>Generate AI Diagnosis</strong> to see
-                  the summary, causes, DIY checks, workshop actions, safety notes, and parts needed.
+                  Use Customer Lookup first, then fill intake fields and click <strong>Generate AI</strong>.
                 </p>
               </div>
             </section>
@@ -1232,7 +620,6 @@
       </section>
     </main>
 
-    <!-- FOOTER -->
     <footer class="site-footer">
       <div class="container footer-inner">
         <span>© <span id="year"></span> Fixif.ai · GGH Software.</span>
@@ -1244,11 +631,27 @@
     </footer>
   </div>
 
-  <!-- SweetAlert2 CDN -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    // ===== Theme + nav toggles =====
+    const API_BASE_URL = 'http://localhost:4000';
+
+    const AI_MODEL_POLICY = [
+      "You must:",
+      "- Only use the data explicitly provided by the user or system.",
+      "- Never invent vehicle faults, test results, or symptoms.",
+      "- Never assume missing information.",
+      "- Explicitly say “Insufficient data” when information is incomplete.",
+      "- Prefer uncertainty over guessing.",
+      "- Rank causes only when evidence supports comparison.",
+      "- Clearly distinguish between estimates and confirmed facts.",
+      "",
+      "If a conclusion cannot be supported by the provided data, you must say so."
+    ].join("\\n");
+
+    /* =========================
+       THEME + NAV
+       ========================= */
     const root = document.documentElement;
     const themeToggle = document.getElementById('theme-toggle');
     const themeLabel = document.getElementById('theme-toggle-label');
@@ -1257,25 +660,14 @@
     const nav = document.getElementById('site-nav');
     const logoutLink = document.getElementById('logoutLink');
 
-    // Match your backend URL
-    const API_BASE_URL = 'http://localhost:4000';
-
     const savedTheme = localStorage.getItem('fixif-theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-      root.setAttribute('data-theme', savedTheme);
-    } else {
-      root.setAttribute('data-theme', 'dark');
-    }
+    if (savedTheme === 'light' || savedTheme === 'dark') root.setAttribute('data-theme', savedTheme);
+    else root.setAttribute('data-theme', 'dark');
 
-    function updateThemeUI() {
+    function updateThemeUI(){
       const current = root.getAttribute('data-theme') || 'dark';
-      if (current === 'dark') {
-        themeLabel.textContent = 'Dark';
-        themeIcon.textContent = '🌙';
-      } else {
-        themeLabel.textContent = 'Light';
-        themeIcon.textContent = '☀️';
-      }
+      if (current === 'dark') { themeLabel.textContent='Dark'; themeIcon.textContent='🌙'; }
+      else { themeLabel.textContent='Light'; themeIcon.textContent='☀️'; }
     }
     updateThemeUI();
 
@@ -1286,332 +678,1152 @@
       updateThemeUI();
     });
 
-    navToggle.addEventListener('click', () => {
-      nav.classList.toggle('is-open');
-    });
-
+    navToggle.addEventListener('click', () => nav.classList.toggle('is-open'));
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ===== LOGOUT HANDLER WITH SWEETALERT CONFIRMATION =====
-    if (logoutLink) {
+    /* =========================
+       AUTH + STATUS UI
+       ========================= */
+    function getToken(){ return localStorage.getItem('fixifToken'); }
+
+    function setTopStatus(msg, type){
+      const el = document.getElementById('topStatus');
+      el.textContent = msg || '';
+      el.className = 'status-msg';
+      if (!msg) return;
+      if (type === 'error') el.classList.add('error');
+      if (type === 'loading') el.classList.add('loading');
+    }
+
+    function setFormStatus(msg, type){
+      const el = document.getElementById('formStatus');
+      el.textContent = msg || '';
+      el.className = 'status-msg';
+      if (!msg) return;
+      if (type === 'error') el.classList.add('error');
+      if (type === 'loading') el.classList.add('loading');
+    }
+
+    async function ensureLoggedIn(){
+      const token = getToken();
+      if (!token) { window.location.href = 'login.html'; return false; }
+      return true;
+    }
+
+    if (logoutLink){
       logoutLink.addEventListener('click', async (e) => {
         e.preventDefault();
-
         const result = await Swal.fire({
           title: 'Log out?',
-          text: 'You will need to log in again to use the AI assistant.',
+          text: 'You will need to log in again to use the intake dashboard.',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Yes, log out',
           cancelButtonText: 'Cancel',
           reverseButtons: true,
         });
-
-        if (!result.isConfirmed) {
-          return;
-        }
-
-        const token = localStorage.getItem('fixifToken');
-
-        if (token) {
-          try {
-            await fetch(API_BASE_URL + '/api/auth/logout', {
-              method: 'POST',
-              headers: {
-                Authorization: 'Bearer ' + token,
-              },
-            });
-          } catch (err) {
-            console.warn('Logout API call failed (ignored):', err);
-          }
-        }
-
+        if (!result.isConfirmed) return;
         localStorage.removeItem('fixifToken');
         localStorage.removeItem('fixifUser');
-
         window.location.href = 'login.html';
       });
     }
 
-    // ===== AI DIAGNOSIS LOGIC =====
-    const form = document.getElementById('diagnosisForm');
-    const statusEl = document.getElementById('status');
-    const resultContainer = document.getElementById('resultContainer');
-    const submitBtn = document.getElementById('submitBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const demoBtn = document.getElementById('demoBtn');
-
-    function setStatus(message, type) {
-      statusEl.textContent = message || '';
-      statusEl.className = 'status';
-      if (!message) return;
-      if (type === 'error') statusEl.classList.add('error');
-      if (type === 'loading') statusEl.classList.add('loading');
+    async function fetchMe(){
+      const token = getToken();
+      if (!token) return null;
+      try{
+        const res = await fetch(API_BASE_URL + '/api/auth/me', { headers:{ Authorization:'Bearer ' + token } });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data && data.user ? data.user : null;
+      } catch { return null; }
     }
 
-    function clearResult() {
-      resultContainer.innerHTML =
-        '<p class="result-placeholder">Fill out the basics and click <strong>Generate AI Diagnosis</strong> to see the AI output.</p>';
+    async function fetchProfile(){
+      const token = getToken();
+      if (!token) return null;
+      try{
+        const res = await fetch(API_BASE_URL + '/api/profile', { headers:{ Authorization:'Bearer ' + token } });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data && data.profile ? data.profile : null;
+      } catch { return null; }
     }
 
-    function renderResult(data) {
-      if (!data) {
-        clearResult();
-        return;
-      }
-      if (!data.ai && data.rawText) {
-        resultContainer.innerHTML =
-          '<div class="result-warning">AI did not return valid JSON. Showing raw output for debugging.</div>' +
-          '<pre>' + (data.rawText || '') + '</pre>';
-        return;
-      }
-      if (!data.ai) {
-        clearResult();
-        return;
-      }
+    const welcomeTitle = document.getElementById('welcomeTitle');
+    const businessLogoImg = document.getElementById('businessLogoImg');
+    const businessLogoFallback = document.getElementById('businessLogoFallback');
 
-      const ai = data.ai;
-      let html = '';
-
-      if (ai.summary) {
-        html += `
-          <div class="result-block">
-            <h3>Summary</h3>
-            <div class="result-text">${ai.summary}</div>
-          </div>
-        `;
+    function setBusinessLogo(url){
+      if (!businessLogoImg || !businessLogoFallback) return;
+      if (url){
+        businessLogoImg.src = url;
+        businessLogoImg.style.display = 'block';
+        businessLogoFallback.style.display = 'none';
+      } else {
+        businessLogoImg.removeAttribute('src');
+        businessLogoImg.style.display = 'none';
+        businessLogoFallback.style.display = 'inline';
       }
-
-      if (Array.isArray(ai.probableCauses) && ai.probableCauses.length > 0) {
-        html += `<div class="result-block"><h3>Probable Causes</h3>`;
-        ai.probableCauses.forEach((c) => {
-          html += `
-            <div class="cause-item">
-              <div class="cause-header">
-                <span style="font-size:0.9rem;font-weight:600;">${c.title || ''}</span>
-                <span class="pill pill-likelihood">${(c.likelihood || 'unspecified').toUpperCase()}</span>
-              </div>
-              <div class="result-text">${c.explanation || ''}</div>
-            </div>
-          `;
-        });
-        html += `</div>`;
-      }
-
-      if (Array.isArray(ai.immediateChecks) && ai.immediateChecks.length > 0) {
-        html += `
-          <div class="result-block">
-            <h3>Immediate Checks / DIY Tips</h3>
-            <ul class="list">
-        `;
-        ai.immediateChecks.forEach((item) => {
-          html += `<li>${item}</li>`;
-        });
-        html += `</ul></div>`;
-      }
-
-      if (Array.isArray(ai.recommendedActions) && ai.recommendedActions.length > 0) {
-        html += `
-          <div class="result-block">
-            <h3>Recommended Actions (Workshop)</h3>
-            <ol class="list">
-        `;
-        ai.recommendedActions.forEach((item) => {
-          html += `<li>${item}</li>`;
-        });
-        html += `</ol></div>`;
-      }
-
-      if (Array.isArray(ai.safetyNotes) && ai.safetyNotes.length > 0) {
-        html += `
-          <div class="result-warning">
-            <strong>Safety Notes:</strong>
-            <ul class="list" style="margin-top:4px;">
-        `;
-        ai.safetyNotes.forEach((item) => {
-          html += `<li>${item}</li>`;
-        });
-        html += `</ul></div>`;
-      }
-
-      if (Array.isArray(ai.partsNeeded) && ai.partsNeeded.length > 0) {
-        html += `
-          <div class="result-block" style="border-color:rgba(148,148,148,0.7);">
-            <h3>Parts Needed (Preliminary)</h3>
-        `;
-        ai.partsNeeded.forEach((p) => {
-          html += `
-            <div class="part-item">
-              <div class="part-header">
-                <span style="font-size:0.9rem;font-weight:600;">
-                  ${p.partName || ''}
-                </span>
-                <span class="pill pill-urgency">${(p.urgency || '').toUpperCase()}</span>
-              </div>
-              <div class="result-text" style="font-size:0.86rem;">
-                OEM/Aftermarket: <strong>${p.oemOrAftermarket || 'unspecified'}</strong>
-              </div>
-              ${p.notes ? `<div class="result-text" style="font-size:0.86rem;margin-top:2px;">Notes: ${p.notes}</div>` : ''}
-            </div>
-          `;
-        });
-        html += `</div>`;
-      }
-
-      if (data.meta && data.meta.model) {
-        const dateStr = data.meta.createdAt
-          ? new Date(data.meta.createdAt).toLocaleString()
-          : '';
-        html += `
-          <div class="result-meta">
-            Generated by ${data.meta.model}${dateStr ? ' · ' + dateStr : ''}
-          </div>
-        `;
-      }
-
-      resultContainer.innerHTML = html || '<p class="result-placeholder">No data.</p>';
     }
 
-    // If not logged in, redirect to login
-    (function ensureLoggedIn() {
-      const token = localStorage.getItem('fixifToken');
-      if (!token) {
-        window.location.href = 'login.html';
+    async function loadWelcome(){
+      const cached = localStorage.getItem('fixifUser');
+      if (cached){
+        try{
+          const u = JSON.parse(cached);
+          const biz = u.businessName || u.name || '—';
+          welcomeTitle.textContent = 'Welcome, ' + biz;
+        } catch {}
       }
-    })();
+      const me = await fetchMe();
+      const profile = await fetchProfile();
+      if (me) localStorage.setItem('fixifUser', JSON.stringify(me));
+      const bizName = (profile && profile.businessName) || (me && (me.businessName || me.name)) || '—';
+      welcomeTitle.textContent = 'Welcome, ' + bizName;
+      setBusinessLogo(profile && profile.logoUrl ? profile.logoUrl : '');
+    }
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      setStatus('', '');
-      clearResult();
+    const uploadLogoBtn = document.getElementById('uploadLogoBtn');
+    const logoInput = document.getElementById('logoInput');
+    const editBusinessNameBtn = document.getElementById('editBusinessNameBtn');
 
-      const symptoms = form.symptoms.value.trim();
-      if (!symptoms) {
-        setStatus('Please describe the symptoms.', 'error');
-        return;
-      }
+    if (uploadLogoBtn && logoInput){
+      uploadLogoBtn.addEventListener('click', () => logoInput.click());
+      logoInput.addEventListener('change', async () => {
+        const file = logoInput.files && logoInput.files[0];
+        if (!file) return;
 
-      const token = localStorage.getItem('fixifToken');
-      if (!token) {
-        setStatus('Session expired. Please log in again.', 'error');
-        setTimeout(() => {
-          window.location.href = 'login.html';
-        }, 800);
-        return;
-      }
-
-      submitBtn.disabled = true;
-      clearBtn.disabled = true;
-      demoBtn.disabled = true;
-      setStatus('Analyzing… thinking like a senior mechanic.', 'loading');
-
-      const payload = {
-        customer: {
-          fullName: form.fullName.value.trim(),
-          phonePrimary: form.phonePrimary.value.trim(),
-          phoneAlternate: form.phoneAlternate.value.trim(),
-          email: form.email.value.trim(),
-          address: form.address.value.trim(),
-          preferredContactMethod: form.preferredContactMethod.value,
-        },
-        vehicle: {
-          year: form.year.value,
-          make: form.make.value.trim(),
-          model: form.model.value.trim(),
-          vin: form.vin.value.trim(),
-          plate: form.plate.value.trim(),
-          mileage: form.mileage.value,
-          engineOrTransmission: form.engineOrTransmission.value.trim(),
-          color: form.color.value.trim(),
-          dropOffDateTime: form.dropOffDateTime.value,
-        },
-        complaint: {
-          symptoms: symptoms,
-          additionalNotes: form.additionalNotes.value.trim(),
-        },
-        preferences: {
-          detailLevel: form.detailLevel.value,
-          language: form.language.value,
-          tone: form.tone.value,
-        },
-      };
-
-      try {
-        const res = await fetch(API_BASE_URL + '/api/diagnose', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
-          },
-          body: JSON.stringify(payload),
-        });
-
-        const raw = await res.text();
-        let data;
-
-        try {
-          data = JSON.parse(raw);
-        } catch (jsonErr) {
-          console.error('❌ Failed to parse JSON from /api/diagnose. Raw response:', raw);
-          setStatus('Server responded with invalid JSON.', 'error');
-          renderResult(null);
+        const okType = ['image/jpeg','image/png','image/webp'].includes(file.type);
+        if (!okType){
+          Swal.fire('Invalid file','Logo must be JPG/PNG/WEBP.','warning');
+          logoInput.value='';
           return;
         }
 
-        if (!res.ok) {
-          const mainMsg = data && data.error ? data.error : 'Failed to get AI response.';
-          const details = data && data.details ? ` (${data.details})` : '';
-          setStatus(mainMsg + details, 'error');
-          renderResult(null);
-        } else {
-          setStatus('', '');
-          renderResult(data);
+        try{
+          uploadLogoBtn.disabled = true;
+          const token = getToken();
+          const fd = new FormData();
+          fd.append('logo', file);
+
+          const res = await fetch(API_BASE_URL + '/api/profile/logo', {
+            method:'POST',
+            headers:{ Authorization:'Bearer ' + token },
+            body: fd
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok){
+            Swal.fire('Upload failed', (data && (data.error || data.message)) || 'Upload failed.', 'error');
+            return;
+          }
+
+          setBusinessLogo(data.logoUrl || '');
+          Swal.fire('Uploaded','Logo updated.','success');
+        } finally {
+          uploadLogoBtn.disabled = false;
+          logoInput.value='';
         }
-      } catch (err) {
-        console.error('❌ Network error calling /api/diagnose:', err);
-        setStatus('Network error or server unreachable.', 'error');
-        renderResult(null);
-      } finally {
-        submitBtn.disabled = false;
-        clearBtn.disabled = false;
-        demoBtn.disabled = false;
+      });
+    }
+
+    if (editBusinessNameBtn){
+      editBusinessNameBtn.addEventListener('click', async () => {
+        const { value } = await Swal.fire({
+          title:'Business Name',
+          input:'text',
+          inputPlaceholder:'Enter business name',
+          showCancelButton:true,
+          confirmButtonText:'Save'
+        });
+        if (value === undefined) return;
+        const name = String(value || '').trim();
+        if (!name){
+          Swal.fire('Invalid','Business name is required.','warning');
+          return;
+        }
+
+        try{
+          editBusinessNameBtn.disabled = true;
+          const token = getToken();
+          const res = await fetch(API_BASE_URL + '/api/profile', {
+            method:'PATCH',
+            headers:{ Authorization:'Bearer ' + token, 'Content-Type':'application/json' },
+            body: JSON.stringify({ businessName: name })
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok){
+            Swal.fire('Update failed', (data && (data.error || data.message)) || 'Update failed.', 'error');
+            return;
+          }
+
+          welcomeTitle.textContent = 'Welcome, ' + name;
+          Swal.fire('Saved','Business name updated.','success');
+        } finally {
+          editBusinessNameBtn.disabled = false;
+        }
+      });
+    }
+
+    /* =========================
+       STATUS WORKFLOW UI
+       ========================= */
+    let currentStatus = 'in_progress';
+    const workflowNote = document.getElementById('workflowNote');
+    const chipInProgress = document.getElementById('statusChipInProgress');
+    const chipCompleted = document.getElementById('statusChipCompleted');
+    const chipCancelled = document.getElementById('statusChipCancelled');
+
+    function setWorkflow(status){
+      currentStatus = status;
+      chipInProgress.classList.toggle('active', status === 'in_progress');
+      chipCompleted.classList.toggle('active', status === 'completed');
+      chipCancelled.classList.toggle('active', status === 'cancelled');
+
+      if (status === 'in_progress'){
+        workflowNote.innerHTML =
+          '<strong>In Progress</strong><br/>' +
+          '• Job created and AI diagnostic generated<br/>' +
+          '• Mechanic is reviewing/editing AI suggestions (tests, labor, notes)';
+      } else if (status === 'completed'){
+        workflowNote.innerHTML =
+          '<strong>Completed</strong><br/>' +
+          '• Mechanic approves the work<br/>' +
+          '• Job is ready for repair or execution';
+      } else {
+        workflowNote.innerHTML =
+          '<strong>Cancelled</strong><br/>' +
+          '• Mechanic declines or job is voided<br/>' +
+          '• Optional notes explaining why';
+      }
+    }
+    chipInProgress.addEventListener('click', () => setWorkflow('in_progress'));
+    chipCompleted.addEventListener('click', () => setWorkflow('completed'));
+    chipCancelled.addEventListener('click', () => setWorkflow('cancelled'));
+
+    /* =========================
+       CUSTOMER LOOKUP
+       ========================= */
+    const lookupPhone = document.getElementById('lookupPhone');
+    const lookupBtn = document.getElementById('lookupBtn');
+    const newCustomerBtn = document.getElementById('newCustomerBtn');
+    const repeatCustomerPill = document.getElementById('repeatCustomerPill');
+    const historyHint = document.getElementById('historyHint');
+    const repeatExtras = document.getElementById('repeatExtras');
+    const vehicleSelect = document.getElementById('vehicleSelect');
+    const vehicleSelectHint = document.getElementById('vehicleSelectHint');
+    const historyList = document.getElementById('historyList');
+    const historyListHint = document.getElementById('historyListHint');
+
+    let lastLookupVehicles = [];
+
+    const form = document.getElementById('intakeForm');
+    const fullName = document.getElementById('fullName');
+    const phone = document.getElementById('phone');
+    const email = document.getElementById('email');
+    const preferredContactMethod = document.getElementById('preferredContactMethod');
+
+    const vin = document.getElementById('vin');
+    const plate = document.getElementById('plate');
+    const year = document.getElementById('year');
+    const make = document.getElementById('make');
+    const model = document.getElementById('model');
+    const engine = document.getElementById('engine');
+    const transmission = document.getElementById('transmission');
+    const dropOffDate = document.getElementById('dropOffDate');
+    const vinStatus = document.getElementById('vinStatus');
+
+    const obd2Data = document.getElementById('obd2Data');
+    const symptoms = document.getElementById('symptoms');
+    const mediaUpload = document.getElementById('mediaUpload');
+    const uploadMediaBtn = document.getElementById('uploadMediaBtn');
+    const mediaUploadStatus = document.getElementById('mediaUploadStatus');
+    const mediaUrls = document.getElementById('mediaUrls');
+    let uploadedMediaUrls = [];
+
+    const detailLevel = document.getElementById('detailLevel');
+    const language = document.getElementById('language');
+    const tone = document.getElementById('tone');
+
+    if (uploadMediaBtn){
+      uploadMediaBtn.addEventListener('click', async () => {
+        if (!(await ensureLoggedIn())) return;
+        const files = Array.from(mediaUpload.files || []);
+        if (!files.length){
+          Swal.fire('No files','Select photo/video first.','warning');
+          return;
+        }
+
+        try{
+          uploadMediaBtn.disabled = true;
+          if (mediaUploadStatus){
+            mediaUploadStatus.style.display='block';
+            mediaUploadStatus.textContent='Uploading...';
+          }
+
+          const token = getToken();
+          const fd = new FormData();
+          files.slice(0,8).forEach(f => fd.append('media', f));
+
+          const res = await fetch(API_BASE_URL + '/api/media/upload', {
+            method:'POST',
+            headers:{ Authorization:'Bearer ' + token },
+            body: fd
+          });
+
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok){
+            Swal.fire('Upload failed',(data && (data.error || data.message)) || 'Upload failed.','error');
+            return;
+          }
+
+          uploadedMediaUrls = Array.isArray(data.urls) ? data.urls : [];
+          if (mediaUrls){
+            mediaUrls.style.display='block';
+            mediaUrls.textContent = uploadedMediaUrls.length ? ('Uploaded: ' + uploadedMediaUrls.join(' , ')) : 'Uploaded (no URLs returned).';
+          }
+          if (mediaUploadStatus) mediaUploadStatus.textContent='Upload complete.';
+          Swal.fire('Uploaded','Media uploaded and ready to attach to the job.','success');
+        } finally {
+          uploadMediaBtn.disabled = false;
+        }
+      });
+    }
+
+    function resetRepeatCustomerUI(){
+      repeatCustomerPill.style.display='none';
+      historyHint.style.display='none';
+      historyHint.textContent='';
+      if (repeatExtras) repeatExtras.style.display='none';
+      if (vehicleSelect) vehicleSelect.innerHTML='<option value="">Select vehicle</option>';
+      if (vehicleSelectHint) vehicleSelectHint.textContent='';
+      if (historyList) historyList.innerHTML='';
+      if (historyListHint) historyListHint.textContent='';
+      lastLookupVehicles = [];
+    }
+
+    function clearIntake(keepLookupPhone=true){
+      form.reset();
+      setFormStatus('','');
+      vinStatus.textContent='';
+      resetRepeatCustomerUI();
+      uploadedMediaUrls = [];
+      if (mediaUrls){ mediaUrls.style.display='none'; mediaUrls.textContent=''; }
+      if (mediaUploadStatus){ mediaUploadStatus.style.display='none'; mediaUploadStatus.textContent=''; }
+      if (!keepLookupPhone) lookupPhone.value='';
+    }
+
+    function clearResult(){
+      resultContainer.innerHTML = '<p class="result-placeholder">Use Customer Lookup first, then click <strong>Generate AI</strong>.</p>';
+    }
+
+    newCustomerBtn.addEventListener('click', () => {
+      clearIntake(true);
+      setTopStatus('New intake ready. Use Lookup if needed.','');
+      clearResult();
+      currentJob = null;
+      updateJobPill();
+    });
+
+    function normalizePhone(s){ return String(s || '').replace(/\s+/g,'').trim(); }
+
+    async function openHistoryJob(jobId){
+      if (!(await ensureLoggedIn())) return;
+      if (!jobId) return;
+
+      try{
+        const token = getToken();
+        const res = await fetch(API_BASE_URL + '/api/jobs/' + encodeURIComponent(jobId), {
+          headers:{ Authorization:'Bearer ' + token }
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok){
+          Swal.fire('Load failed', (data && (data.error || data.message)) || 'Load failed.', 'error');
+          return;
+        }
+
+        const job = data.job;
+        if (!job){
+          Swal.fire('Load failed','No job returned.','error');
+          return;
+        }
+
+        currentJob = job;
+        updateJobPill();
+        setWorkflow(currentJob.status || 'in_progress');
+        renderDashboard(currentJob);
+
+        Swal.fire('Loaded','History job loaded.','success');
+      } catch {
+        Swal.fire('Load failed','Network error.','error');
+      }
+    }
+
+    function escapeHtml(str){
+      return String(str || '')
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#039;");
+    }
+
+    function renderVehicleSelector(vehicles){
+      lastLookupVehicles = Array.isArray(vehicles) ? vehicles : [];
+      if (!repeatExtras || !vehicleSelect || !vehicleSelectHint) return;
+
+      if (!lastLookupVehicles.length){
+        repeatExtras.style.display='none';
+        vehicleSelect.innerHTML='<option value="">Select vehicle</option>';
+        vehicleSelectHint.textContent='';
+        return;
+      }
+
+      repeatExtras.style.display='block';
+      vehicleSelect.innerHTML='<option value="">Select vehicle</option>';
+
+      lastLookupVehicles.forEach((v, idx) => {
+        const label = [v.year, v.make, v.model].filter(Boolean).join(' ').trim() || 'Vehicle';
+        const plateTxt = v.plate ? (' · ' + v.plate) : '';
+        const vinTxt = v.vin ? (' · ' + (String(v.vin).slice(0,6) + '…' + String(v.vin).slice(-4))) : '';
+        const opt = document.createElement('option');
+        opt.value = String(idx);
+        opt.textContent = label + plateTxt + vinTxt;
+        vehicleSelect.appendChild(opt);
+      });
+
+      vehicleSelect.value='0';
+      vehicleSelectHint.textContent='Select a vehicle to populate VIN/plate/year/make/model.';
+    }
+
+    function applyVehicleToForm(v){
+      if (!v) return;
+      vin.value = v.vin || '';
+      plate.value = v.plate || '';
+      year.value = v.year || '';
+      make.value = v.make || '';
+      model.value = v.model || '';
+      engine.value = v.engine || '';
+      const t = (v.transmission || '').toUpperCase();
+      if (['AT','MT','CVT','DCT'].includes(t)) transmission.value = t;
+      else if (t) transmission.value = 'Other';
+      else transmission.value = '';
+      dropOffDate.value = (v.dropOffDate || '').slice(0,10);
+    }
+
+    function renderHistoryList(history){
+      if (!historyList || !historyListHint) return;
+      historyList.innerHTML='';
+      const arr = Array.isArray(history) ? history : [];
+      if (!arr.length){
+        historyList.innerHTML='<div class="hint">No previous jobs found.</div>';
+        historyListHint.textContent='';
+        return;
+      }
+
+      arr.slice(0,10).forEach((h) => {
+        const card = document.createElement('div');
+        card.className='card';
+        card.style.padding='0.75rem';
+        card.style.border='1px solid rgba(255,255,255,.10)';
+        card.style.background='rgba(255,255,255,.03)';
+
+        const title = h.mostLikelyIssue || (h.aiResult && h.aiResult.mostLikelyIssue) || '—';
+        const status = String(h.status || 'in_progress').replace('_',' ');
+        const when = h.createdAt ? new Date(h.createdAt).toLocaleString() : '—';
+        const conf = (h.confidenceLevel ?? (h.aiResult && h.aiResult.confidenceLevel));
+
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; gap:0.75rem; align-items:flex-start;">
+            <div style="min-width:0;">
+              <div style="font-weight:800; line-height:1.15; word-break:break-word;">${escapeHtml(title)}</div>
+              <div class="hint" style="margin-top:0.4rem;">
+                ${escapeHtml(status)} · ${escapeHtml(when)}${conf !== undefined && conf !== null ? (' · Confidence: ' + escapeHtml(String(conf)) + '%') : ''}
+              </div>
+            </div>
+            <button class="btn btn-ghost" type="button">Open</button>
+          </div>
+        `;
+        card.querySelector('button').addEventListener('click', () => openHistoryJob(h.id));
+        historyList.appendChild(card);
+      });
+
+      historyListHint.textContent='Click Open to load a past job into the result panel.';
+    }
+
+    if (vehicleSelect){
+      vehicleSelect.addEventListener('change', () => {
+        const idx = Number(vehicleSelect.value);
+        if (!Number.isFinite(idx)) return;
+        const v = lastLookupVehicles[idx];
+        if (!v) return;
+        applyVehicleToForm(v);
+      });
+    }
+
+    lookupBtn.addEventListener('click', async () => {
+      if (!(await ensureLoggedIn())) return;
+      const p = normalizePhone(lookupPhone.value);
+      if (!p){ setTopStatus('Enter a phone number to lookup.','error'); return; }
+
+      setTopStatus('Looking up customer...','loading');
+      resetRepeatCustomerUI();
+
+      try{
+        const token = getToken();
+        const res = await fetch(API_BASE_URL + '/api/customers/lookup?phone=' + encodeURIComponent(p), {
+          headers:{ Authorization:'Bearer ' + token }
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok){
+          setTopStatus((data && data.error) ? data.error : 'Lookup failed.','error');
+          return;
+        }
+
+        if (!data.found){
+          clearIntake(true);
+          phone.value = p;
+          setTopStatus('No existing customer found. Intake fields are blank.','');
+          return;
+        }
+
+        const c = data.customer || {};
+        fullName.value = c.fullName || '';
+        phone.value = c.phone || p;
+        email.value = c.email || '';
+        preferredContactMethod.value = (c.preferredContactMethod === 'email') ? 'email' : 'text';
+        repeatCustomerPill.style.display='inline-flex';
+
+        const vehicles = Array.isArray(data.vehicles) ? data.vehicles : [];
+        if (vehicles.length > 0) applyVehicleToForm(vehicles[0]);
+        renderVehicleSelector(vehicles);
+
+        const history = Array.isArray(data.history) ? data.history : [];
+        renderHistoryList(history);
+        if (history.length > 0){
+          historyHint.style.display='block';
+          const last = history[0];
+          const lastStatus = (last.status || '').replace('_',' ');
+          historyHint.textContent = 'History: ' + history.length + ' job(s). Latest status: ' + lastStatus + '.';
+        }
+
+        setTopStatus('Customer found. Details auto-filled.','');
+      } catch {
+        setTopStatus('Network error during lookup.','error');
       }
     });
 
+    /* =========================
+       VIN DECODE
+       ========================= */
+    const decodeVinBtn = document.getElementById('decodeVinBtn');
+    function setVinStatus(msg){ vinStatus.textContent = msg || ''; }
+
+    decodeVinBtn.addEventListener('click', async () => {
+      if (!(await ensureLoggedIn())) return;
+
+      const v = String(vin.value || '').trim();
+      if (!v){ setVinStatus('Enter a VIN first.'); return; }
+
+      setVinStatus('Decoding VIN...');
+      try{
+        const token = getToken();
+        const res = await fetch(API_BASE_URL + '/api/vin/decode?vin=' + encodeURIComponent(v), {
+          headers:{ Authorization:'Bearer ' + token }
+        });
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok){
+          setVinStatus((data && data.error) ? data.error : 'VIN decode failed.');
+          return;
+        }
+
+        const d = data.decoded || {};
+        if (d.year) year.value = d.year;
+        if (d.make) make.value = d.make;
+        if (d.model) model.value = d.model;
+        if (d.engine) engine.value = d.engine;
+        if (d.transmission){
+          const t = String(d.transmission).toUpperCase();
+          if (['AT','MT','CVT','DCT'].includes(t)) transmission.value = t;
+          else transmission.value = 'Other';
+        }
+        setVinStatus('VIN decoded. Fields updated.');
+      } catch {
+        setVinStatus('Network error during VIN decode.');
+      }
+    });
+
+    /* =========================
+       JOB + AI FLOW
+       ========================= */
+    const resultContainer = document.getElementById('resultContainer');
+    const jobIdPill = document.getElementById('jobIdPill');
+    const generateBtn = document.getElementById('generateBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const demoBtn = document.getElementById('demoBtn');
+
+    let currentJob = null;
+
+    function updateJobPill(){
+      const id = currentJob && (currentJob._id || currentJob.id);
+      if (id){
+        jobIdPill.style.display='inline-flex';
+        jobIdPill.textContent='Job: ' + String(id).slice(-8);
+      } else {
+        jobIdPill.style.display='none';
+        jobIdPill.textContent='Job: —';
+      }
+    }
+
+    function likelihoodClass(l){
+      const s = String(l || '').toLowerCase();
+      if (s === 'high') return 'likelihood-high';
+      if (s === 'medium') return 'likelihood-medium';
+      if (s === 'low') return 'likelihood-low';
+      return '';
+    }
+
+    function safeNumber(n, fallback=0){
+      const x = Number(n);
+      return Number.isFinite(x) ? x : fallback;
+    }
+
+    function normalizeTextOrInsufficient(v){
+      const t = String(v ?? '').trim();
+      return t ? t : 'Insufficient data';
+    }
+
+    function setConfidenceUI(){
+      const input = document.getElementById('editConfidence');
+      const bar = document.getElementById('confidenceBar');
+      const pct = document.getElementById('confidencePct');
+      if (!input || !bar || !pct) return;
+
+      const val = Math.max(0, Math.min(100, safeNumber(input.value, 0)));
+      bar.style.width = val + '%';
+      pct.textContent = val + '%';
+    }
+
+    // ✅ FIX 1: add Most Likely Issue editor (was referenced but missing)
+    // ✅ FIX 2: per-cause labor save supported (frontend stores editable fields)
+    // ✅ FIX 3: summary endpoint call now matches backend routes (/summary/customer | /summary/mechanic)
+    // ✅ FIX 4: summary response supports backend returning {summary} (string or object)
+    function renderDashboard(job){
+      if (!job){ clearResult(); return; }
+
+      const ai = job.aiResult || {};
+      const causes = Array.isArray(ai.probableCauses) ? ai.probableCauses : [];
+
+      let html = '';
+
+      html += `
+        <div class="result-block">
+          <h3>AI Diagnostic Result</h3>
+          <div class="kv">
+
+            <div class="kv-row">
+              <div>
+                <label>Most Likely Issue (editable)</label>
+                <input id="editMostLikelyIssue" type="text" value="${escapeHtml(ai.mostLikelyIssue || '')}" placeholder="(blank)" />
+                <div class="hint">This is the headline shown in summaries.</div>
+              </div>
+
+              <div>
+                <label>Status</label>
+                <input type="text" value="${escapeHtml(job.status || '')}" disabled />
+              </div>
+            </div>
+
+            <div class="kv-row">
+              <div>
+                <label>Confidence Level</label>
+                <div class="progress-wrap">
+                  <div class="progress-top">
+                    <div class="progress-pct" id="confidencePct">0%</div>
+                    <div style="display:flex; gap:.5rem; align-items:center; justify-content:flex-end;">
+                      <span class="pill">editable</span>
+                    </div>
+                  </div>
+                  <div class="progress-track"><div class="progress-bar" id="confidenceBar"></div></div>
+                  <input id="editConfidence" type="number" min="0" max="100" value="${safeNumber(ai.confidenceLevel, 0)}" />
+                  <div class="hint">Progress bar reflects the editable % value above.</div>
+                </div>
+              </div>
+
+              <div>
+                <label>Estimated Labor (overall, hours)</label>
+                <input id="editLaborHours" type="number" step="0.1" min="0" value="${safeNumber(ai.estimatedLaborHours, 0)}" />
+                <div class="hint">Overall estimate (separate from per-cause labor below).</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      html += `<div class="result-block"><h3>Probable Causes</h3>`;
+
+      if (!causes.length){
+        html += `<p class="result-placeholder">Insufficient data</p>`;
+      } else {
+        causes.forEach((c, idx) => {
+          const title = c.title || ('Cause ' + (idx + 1));
+          const likelihood = (c.likelihood || 'medium');
+          const severity = c.severity || 'Insufficient data';
+
+          const recTestText =
+            (c.recommendedTesting && typeof c.recommendedTesting === 'string')
+              ? c.recommendedTesting
+              : (c.recommendedTesting && c.recommendedTesting.steps)
+                ? c.recommendedTesting.steps
+                : (c.recommendedTesting && c.recommendedTesting.text)
+                  ? c.recommendedTesting.text
+                  : '';
+
+          const recTestTime =
+            (c.recommendedTesting && typeof c.recommendedTesting === 'object')
+              ? (c.recommendedTesting.timeMinutes ?? c.recommendedTesting.timeMins ?? c.recommendedTesting.minutes)
+              : (c.testingTimeMinutes ?? c.testingTimeMins ?? c.testingMinutes);
+
+          const partsIfConfirmed = Array.isArray(c.partsNeededIfConfirmed)
+            ? c.partsNeededIfConfirmed
+            : (Array.isArray(c.partsNeeded) ? c.partsNeeded : []);
+
+          const partsListHtml = partsIfConfirmed.length
+            ? ('<ul style="margin:.35rem 0 0; padding-left:1.1rem; color:var(--text-muted); font-size:.9rem; line-height:1.6;">' +
+                partsIfConfirmed.map(p => '<li>' + escapeHtml(String(p)) + '</li>').join('') +
+               '</ul>')
+            : '<div class="hint" style="margin-top:.35rem;">Insufficient data</div>';
+
+          const estLaborIfConfirmed = safeNumber(c.estimatedLaborHoursIfConfirmed ?? c.estimatedLabourHoursIfConfirmed ?? c.estimatedLaborHours, 0);
+
+          html += `
+            <div class="cause-item ${likelihoodClass(likelihood)}" data-cause-idx="${idx}">
+              <div class="cause-header">
+                <div style="min-width:0;">
+                  <div class="cause-title">${escapeHtml(title)}</div>
+                  <div class="hint" style="margin-top:.25rem;">${escapeHtml(normalizeTextOrInsufficient(c.explanation))}</div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:.35rem; align-items:flex-end;">
+                  <span class="pill">${escapeHtml(String(likelihood).toUpperCase())}</span>
+                  <span class="pill">Severity: ${escapeHtml(String(severity))}</span>
+                </div>
+              </div>
+
+              <div class="divider" style="margin:.6rem 0;"></div>
+
+              <div class="kv" style="gap:.75rem;">
+                <div>
+                  <label>Recommended Testing (not editable)</label>
+                  <div class="result-text" style="margin-top:.25rem;">
+                    ${escapeHtml(normalizeTextOrInsufficient(recTestText))}
+                    ${recTestTime !== undefined && recTestTime !== null && String(recTestTime).trim() !== ''
+                      ? ('<div class="hint" style="margin-top:.35rem;">Testing time: ' + escapeHtml(String(recTestTime)) + ' mins</div>')
+                      : '<div class="hint" style="margin-top:.35rem;">Testing time: Insufficient data</div>'
+                    }
+                  </div>
+                </div>
+
+                <div>
+                  <label>Parts Needed (If Test confirms) (not editable)</label>
+                  ${partsListHtml}
+                </div>
+
+                <div class="kv-row">
+                  <div>
+                    <label>Estimated Labour (If confirmed, hours) (editable)</label>
+                    <input id="causeLabor_${idx}" type="number" step="0.1" min="0" value="${estLaborIfConfirmed}" />
+                    <div class="hint">Saved per-cause in AI result (if backend supports).</div>
+                  </div>
+
+                  <div>
+                    <label>Severity (not editable)</label>
+                    <input type="text" value="${escapeHtml(String(severity))}" disabled />
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+      html += `</div>`;
+
+      html += `
+        <div class="result-block">
+          <h3>Mechanic Notes &amp; Schedule</h3>
+          <div class="kv">
+            <div>
+              <label>Additional Mechanic Notes</label>
+              <textarea id="editMechanicNotes" rows="3" placeholder="(blank)">${escapeHtml(ai.additionalMechanicNotes || '')}</textarea>
+            </div>
+
+            <div class="kv-row">
+              <div>
+                <label>Estimated Pickup Date (optional)</label>
+                <input id="editPickupDate" type="date" value="${(ai.estimatedPickupDate || '').slice(0,10)}" />
+              </div>
+              <div>
+                <label>Current Status</label>
+                <input type="text" value="${escapeHtml(job.status || '')}" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      html += `
+        <div class="result-actions">
+          <a class="linkish" href="javascript:void(0)" id="customerSummaryLink">Generate a customer summary</a>
+          <a class="linkish" href="javascript:void(0)" id="mechanicSummaryLink">Generate a mechanic summary</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="result-actions">
+          <button type="button" class="btn btn-success" id="approveBtn">Approve Work</button>
+          <button type="button" class="btn btn-danger" id="declineBtn">Decline Work</button>
+          <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
+        </div>
+
+        <div class="meta-line" id="generatedMeta">
+          ${job.generatedOn ? ('Generated on ' + escapeHtml(job.generatedOn)) : ''}
+        </div>
+
+        <div id="summaryBox" style="margin-top:0.75rem;"></div>
+
+        <div class="disclaimer">
+          <strong>Disclaimer:</strong> This AI output is an estimate, not a confirmed diagnosis. Always confirm via testing and professional inspection.
+        </div>
+      `;
+
+      resultContainer.innerHTML = html;
+
+      document.getElementById('approveBtn').addEventListener('click', () => changeStatus('completed'));
+      document.getElementById('declineBtn').addEventListener('click', async () => {
+        const r = await Swal.fire({
+          title: 'Decline Work?',
+          text: 'Add optional notes (recommended).',
+          icon: 'warning',
+          input: 'textarea',
+          inputPlaceholder: 'Optional notes...',
+          showCancelButton: true,
+          confirmButtonText: 'Decline',
+          cancelButtonText: 'Cancel',
+          reverseButtons: true,
+        });
+        if (!r.isConfirmed) return;
+        changeStatus('cancelled', r.value || '');
+      });
+
+      document.getElementById('saveBtn').addEventListener('click', () => saveEdits());
+      document.getElementById('customerSummaryLink').addEventListener('click', () => generateSummary('customer'));
+      document.getElementById('mechanicSummaryLink').addEventListener('click', () => generateSummary('mechanic'));
+
+      setConfidenceUI();
+      const confInput = document.getElementById('editConfidence');
+      confInput.addEventListener('input', setConfidenceUI);
+      confInput.addEventListener('change', setConfidenceUI);
+    }
+
+    function getMediaPayload(){
+      const urls = Array.isArray(uploadedMediaUrls) ? uploadedMediaUrls : [];
+      return urls.slice(0,25).map(u => ({
+        kind: String(u || '').match(/\.(mp4|mov|avi|mkv|webm)$/i) ? 'video' : 'photo',
+        url: u
+      }));
+    }
+
+    function buildJobPayload(){
+      return {
+        customer:{
+          fullName: fullName.value.trim(),
+          phone: phone.value.trim(),
+          email: email.value.trim(),
+          preferredContactMethod: preferredContactMethod.value
+        },
+        vehicle:{
+          vin: vin.value.trim(),
+          plate: plate.value.trim(),
+          year: year.value.trim(),
+          make: make.value.trim(),
+          model: model.value.trim(),
+          engine: engine.value.trim(),
+          transmission: transmission.value,
+          dropOffDate: dropOffDate.value
+        },
+        diagnostic:{
+          obd2Data: obd2Data.value.trim(),
+          symptoms: symptoms.value.trim(),
+          media: getMediaPayload()
+        },
+        preferences:{
+          detailLevel: detailLevel.value,
+          language: language.value,
+          tone: tone.value,
+          aiPolicy: AI_MODEL_POLICY
+        }
+      };
+    }
+
+    async function createJobAndGenerate(){
+      if (!(await ensureLoggedIn())) return;
+
+      const p = buildJobPayload();
+      if (!p.customer.phone){
+        setFormStatus('Phone number is required (lookup or manual).','error');
+        return;
+      }
+      if (!p.diagnostic.symptoms){
+        setFormStatus('Describe the symptoms first.','error');
+        return;
+      }
+
+      generateBtn.disabled = true;
+      clearBtn.disabled = true;
+      demoBtn.disabled = true;
+      lookupBtn.disabled = true;
+      newCustomerBtn.disabled = true;
+
+      setFormStatus('Generating AI draft...','loading');
+      setTopStatus('','');
+
+      try{
+        const token = getToken();
+        const res = await fetch(API_BASE_URL + '/api/jobs', {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + token },
+          body: JSON.stringify(p)
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok){
+          const msg = (data && (data.error || data.message)) ? (data.error || data.message) : 'Failed to create job.';
+          setFormStatus(msg,'error');
+          return;
+        }
+
+        currentJob = data.job;
+        updateJobPill();
+        setWorkflow(currentJob.status || 'in_progress');
+
+        setFormStatus('','');
+        renderDashboard(currentJob);
+      } catch {
+        setFormStatus('Network error calling /api/jobs.','error');
+      } finally {
+        generateBtn.disabled = false;
+        clearBtn.disabled = false;
+        demoBtn.disabled = false;
+        lookupBtn.disabled = false;
+        newCustomerBtn.disabled = false;
+      }
+    }
+
+    // NOTE: this will only persist if backend accepts probableCauses edits
+    function readPerCauseLaborFromUI(){
+      if (!currentJob || !currentJob.aiResult) return [];
+      const causes = Array.isArray(currentJob.aiResult.probableCauses) ? currentJob.aiResult.probableCauses : [];
+      return causes.map((c, idx) => {
+        const el = document.getElementById('causeLabor_' + idx);
+        const v = el ? Number(el.value || 0) : (c.estimatedLaborHoursIfConfirmed ?? c.estimatedLabourHoursIfConfirmed ?? 0);
+        return { ...c, estimatedLaborHoursIfConfirmed: safeNumber(v, 0) };
+      });
+    }
+
+    async function saveEdits(){
+      if (!(await ensureLoggedIn())) return;
+      if (!currentJob) return;
+
+      const jobId = currentJob._id || currentJob.id;
+      if (!jobId) return;
+
+      const mostLikelyIssueEl = document.getElementById('editMostLikelyIssue');
+      const confidenceEl = document.getElementById('editConfidence');
+      const laborEl = document.getElementById('editLaborHours');
+      const notesEl = document.getElementById('editMechanicNotes');
+      const pickupEl = document.getElementById('editPickupDate');
+
+      const updatedCauses = readPerCauseLaborFromUI();
+
+      const payload = {
+        aiResult: {
+          mostLikelyIssue: (mostLikelyIssueEl ? mostLikelyIssueEl.value : ''),
+          confidenceLevel: safeNumber(confidenceEl ? confidenceEl.value : 0, 0),
+          estimatedLaborHours: safeNumber(laborEl ? laborEl.value : 0, 0),
+          additionalMechanicNotes: (notesEl ? notesEl.value : ''),
+          estimatedPickupDate: (pickupEl ? pickupEl.value : '') || '',
+          probableCauses: updatedCauses
+        }
+      };
+
+      setTopStatus('Saving...','loading');
+
+      try{
+        const token = getToken();
+        const res = await fetch(API_BASE_URL + '/api/jobs/' + encodeURIComponent(jobId), {
+          method:'PATCH',
+          headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + token },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok){
+          setTopStatus((data && (data.error || data.message)) ? (data.error || data.message) : 'Save failed.','error');
+          return;
+        }
+
+        currentJob = data.job || currentJob;
+        updateJobPill();
+        setTopStatus('Saved.','');
+        renderDashboard(currentJob);
+      } catch {
+        setTopStatus('Network error while saving.','error');
+      }
+    }
+
+    async function changeStatus(status, cancelNotes=''){
+      if (!(await ensureLoggedIn())) return;
+      if (!currentJob) return;
+
+      const jobId = currentJob._id || currentJob.id;
+      if (!jobId) return;
+
+      setTopStatus('Updating status...','loading');
+
+      try{
+        const token = getToken();
+        const payload = { status, cancelNotes };
+        const res = await fetch(API_BASE_URL + '/api/jobs/' + encodeURIComponent(jobId), {
+          method:'PATCH',
+          headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + token },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok){
+          setTopStatus((data && (data.error || data.message)) ? (data.error || data.message) : 'Status update failed.','error');
+          return;
+        }
+
+        currentJob = data.job || currentJob;
+        updateJobPill();
+        setWorkflow(currentJob.status || status);
+        setTopStatus('Status updated.','');
+        renderDashboard(currentJob);
+      } catch {
+        setTopStatus('Network error updating status.','error');
+      }
+    }
+
+    // ✅ FIX: correct summary routes + robust response handling
+    async function generateSummary(kind){
+      if (!(await ensureLoggedIn())) return;
+      if (!currentJob) return;
+
+      const jobId = currentJob._id || currentJob.id;
+      if (!jobId) return;
+
+      const summaryBox = document.getElementById('summaryBox');
+      summaryBox.innerHTML = '<div class="result-block"><h3>Summary</h3><p class="result-placeholder">Generating...</p></div>';
+
+      const endpoint =
+        kind === 'customer'
+          ? (API_BASE_URL + '/api/jobs/' + encodeURIComponent(jobId) + '/summary/customer')
+          : (API_BASE_URL + '/api/jobs/' + encodeURIComponent(jobId) + '/summary/mechanic');
+
+      try{
+        const token = getToken();
+        const res = await fetch(endpoint, {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', Authorization:'Bearer ' + token }
+        });
+
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok){
+          summaryBox.innerHTML =
+            '<div class="result-block"><h3>Summary</h3><p class="result-placeholder">' +
+            escapeHtml((data && (data.error || data.message)) ? (data.error || data.message) : 'Failed to generate summary.') +
+            '</p></div>';
+          return;
+        }
+
+        // backend may return:
+        // - { summary: "string..." }
+        // - { summary: {...object...} }
+        // - { text: "..." } (older)
+        const payload = (data.summary !== undefined) ? data.summary : (data.text !== undefined ? data.text : data);
+
+        const title = (kind === 'customer' ? 'Customer Summary' : 'Mechanic Summary');
+        const txt =
+          (typeof payload === 'string')
+            ? payload
+            : JSON.stringify(payload, null, 2);
+
+        summaryBox.innerHTML =
+          '<div class="result-block">' +
+            '<h3>' + title + '</h3>' +
+            '<pre>' + escapeHtml(txt || '') + '</pre>' +
+          '</div>';
+      } catch {
+        summaryBox.innerHTML =
+          '<div class="result-block"><h3>Summary</h3><p class="result-placeholder">Network error.</p></div>';
+      }
+    }
+
+    /* =========================
+       BUTTONS
+       ========================= */
+    generateBtn.addEventListener('click', createJobAndGenerate);
+
     clearBtn.addEventListener('click', () => {
-      form.reset();
+      clearIntake(true);
       clearResult();
-      setStatus('', '');
+      currentJob = null;
+      updateJobPill();
+      setTopStatus('Cleared.','');
     });
 
     demoBtn.addEventListener('click', () => {
-      form.fullName.value = 'Juan Dela Cruz';
-      form.phonePrimary.value = '09171234567';
-      form.phoneAlternate.value = '09998887777';
-      form.email.value = 'juan.delacruz@example.com';
-      form.address.value = 'Blk 14 Lot 9, Bellevue Residences, San Jose del Monte, Bulacan';
-      form.preferredContactMethod.value = 'text';
+      fullName.value = 'Juan Dela Cruz';
+      phone.value = '09171234567';
+      email.value = 'juan.delacruz@example.com';
+      preferredContactMethod.value = 'text';
 
-      form.year.value = '2015';
-      form.make.value = 'Toyota';
-      form.model.value = 'Vios 1.3 E';
-      form.vin.value = 'JTDB123456789ABCD';
-      form.plate.value = 'ABC 1234';
-      form.mileage.value = '86500';
-      form.engineOrTransmission.value = '1.3L Gasoline A/T';
-      form.color.value = 'Silver';
-      form.dropOffDateTime.value = '2025-11-23T10:30';
+      vin.value = 'WVWZZZ1JZXW000001';
+      plate.value = 'ABC 1234';
+      year.value = '';
+      make.value = '';
+      model.value = '';
+      engine.value = '';
+      transmission.value = 'AT';
+      dropOffDate.value = '2026-01-03';
 
-      form.symptoms.value =
-        'Engine makes a knocking sound on cold start for 2–3 minutes, check engine light sometimes turns on, fuel consumption is higher than usual.';
-      form.additionalNotes.value =
-        'Started around 2 weeks ago after a long trip. Oil change 3 months ago at a generic gas station.';
+      obd2Data.value = 'DTC: P0302 (Cylinder 2 Misfire)\\nSTFT: +12%\\nLTFT: +8%\\nMisfire count cyl2 increasing at idle.';
+      symptoms.value = 'Rough idle and intermittent check engine light. Power loss on acceleration. Started last week after heavy rain.';
 
-      setStatus('Demo data filled. You can adjust anything, then click Generate.', '');
+      detailLevel.value = 'Detailed';
+      language.value = 'English';
+      tone.value = 'More Technical';
+
+      setFormStatus('Demo data filled. Click Generate AI.','');
       clearResult();
     });
 
-    clearResult();
+    /* =========================
+       INIT
+       ========================= */
+    (async function init(){
+      setWorkflow('in_progress');
+      clearResult();
+      updateJobPill();
+
+      const ok = await ensureLoggedIn();
+      if (!ok) return;
+      await loadWelcome();
+    })();
   </script>
 </body>
 </html>

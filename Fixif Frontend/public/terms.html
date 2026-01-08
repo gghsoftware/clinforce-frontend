@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Legal & Data Center – Fixif.ai</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Optional: keep if you have a global stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    /* ==========================
+       Base / Reset
+       ========================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #ffffff;
+      color: #111111;
+    }
+
+    a {
+      color: #111111;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+
+    a:hover {
+      text-decoration-thickness: 2px;
+    }
+
+    /* ==========================
+       Layout Helpers
+       ========================== */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
+    .container {
+      width: min(1120px, 100% - 2.5rem);
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 3.5rem 0;
+    }
+
+    .section-header {
+      margin-bottom: 1.25rem;
+    }
+
+    .section-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      color: #666666;
+      margin-bottom: 0.35rem;
+    }
+
+    .section-title {
+      font-size: 1.9rem;
+      margin: 0 0 0.4rem;
+      font-weight: 600;
+    }
+
+    .section-subtitle {
+      margin: 0;
+      font-size: 0.98rem;
+      color: #555555;
+      max-width: 640px;
+    }
+
+    /* ==========================
+       Header / Navigation
+       ========================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 0;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 0.5rem;
+      object-fit: cover;
+      border: 1px solid #cccccc;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .brand-name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .brand-tagline {
+      font-size: 0.78rem;
+      color: #777777;
+    }
+
+    .site-nav {
+      display: flex;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-size: 0.9rem;
+      color: #555555;
+      text-decoration: none;
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+
+    .nav-link:hover {
+      color: #111111;
+      border-color: #dddddd;
+      background: #f5f5f5;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-toggle {
+      border-radius: 999px;
+      border: 1px solid #d4d4d4;
+      background: #f9f9f9;
+      color: #111111;
+      padding: 0.25rem 0.7rem;
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: default;
+    }
+
+    .nav-toggle {
+      display: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      margin: 3px 0;
+      background: #111111;
+      border-radius: 999px;
+    }
+
+    /* ==========================
+       Card styles
+       ========================== */
+    .card {
+      background: #ffffff;
+      border-radius: 1rem;
+      border: 1px solid #e5e5e5;
+      padding: 1.3rem 1.4rem;
+      box-shadow:
+        0 16px 45px rgba(0, 0, 0, 0.04),
+        0 0 0 1px rgba(0, 0, 0, 0.01);
+    }
+
+    .card-title {
+      margin: 0 0 0.45rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #111111;
+    }
+
+    .card-text {
+      margin: 0;
+      font-size: 0.93rem;
+      color: #222222;
+      line-height: 1.6;
+    }
+
+    .card-text ul,
+    .card-text li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    ul.card-text,
+    .card-text ul {
+      list-style: disc;
+      padding-left: 1.1rem;
+    }
+
+    .card-text li + li {
+      margin-top: 0.3rem;
+    }
+
+    /* ==========================
+       Legal / Terms specific
+       ========================== */
+
+    /* Hero layout */
+    .section-hero-legal {
+      padding-top: 4.0rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .section-hero-legal .section-header {
+      max-width: 720px;
+    }
+
+    /* Meta strip */
+    .legal-meta {
+      margin-top: 1.5rem;
+      border-radius: 0.9rem;
+      border: 1px solid #e5e5e5;
+      padding: 0.75rem 1.3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafafa;
+      font-size: 0.85rem;
+      color: #555555;
+    }
+
+    .legal-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .legal-meta-label {
+      font-weight: 600;
+    }
+
+    .legal-meta-text {
+      opacity: 0.9;
+    }
+
+    /* Sub navigation pills */
+    .legal-subnav {
+      margin-top: 1.75rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .legal-pill {
+      padding: 0.55rem 1.15rem;
+      border-radius: 999px;
+      border: 1px solid #d4d4d4;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: #222222;
+      background: #f8f8f8;
+      transition: background 0.2s ease, border-color 0.2s ease,
+        transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    .legal-pill:hover {
+      border-color: #bbbbbb;
+      background: #f0f0f0;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.05);
+      text-decoration: none;
+    }
+
+    .legal-pill--active {
+      border-color: #111111;
+      background: #ffffff;
+    }
+
+    /* Layout */
+    .legal-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.3fr);
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+
+    .legal-layout--reverse {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+    }
+
+    .legal-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .legal-section-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .legal-card {
+      padding: 1.25rem 1.3rem;
+    }
+
+    .legal-card .card-title {
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .legal-card .card-text {
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* Aside */
+    .legal-aside {
+      position: sticky;
+      top: 6rem;
+      align-self: flex-start;
+      padding: 1.4rem 1.35rem;
+    }
+
+    .legal-aside-intro {
+      font-size: 0.9rem;
+      color: #555555;
+    }
+
+    .legal-aside-list {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    /* Privacy section grid */
+    .legal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.5rem;
+    }
+
+    .legal-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* Data handling aside subtitle */
+    .legal-aside-subtitle {
+      margin-top: 1.4rem;
+      font-size: 0.95rem;
+    }
+
+    /* ==========================
+       Footer
+       ========================== */
+    .site-footer {
+      margin-top: auto;
+      border-top: 1px solid #e5e5e5;
+      padding: 1.5rem 0 2.25rem;
+      background: #ffffff;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.88rem;
+      color: #555555;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .footer-links a {
+      color: #555555;
+      text-decoration: none;
+      font-size: 0.85rem;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+      color: #111111;
+    }
+
+    /* ==========================
+       Responsive
+       ========================== */
+    @media (max-width: 960px) {
+      .site-nav {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: inline-block;
+      }
+
+      .legal-layout,
+      .legal-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .legal-aside {
+        position: static;
+      }
+
+      .legal-meta {
+        border-radius: 0.75rem;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section-hero-legal {
+        padding-top: 3.25rem;
+      }
+
+      .section {
+        padding: 2.75rem 0;
+      }
+
+      .legal-meta {
+        padding: 0.75rem 1rem;
+      }
+
+      .legal-pill {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .header-inner {
+        padding: 0.7rem 0;
+      }
+
+      .container {
+        width: min(100% - 1.6rem, 960px);
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">
+        <img
+          src="fixif.jpg"
+          alt="Fixif.ai logo"
+          class="brand-logo"
+        />
+        <div class="brand-text">
+          <span class="brand-name">Fixif.ai</span>
+          <span class="brand-tagline">AI-Powered Auto Repair Assistant</span>
+        </div>
+      </a>
+
+      <nav class="site-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="how-it-works.html" class="nav-link">How It Works</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+        <a href="faq.html" class="nav-link">FAQ</a>
+        <a href="register.html" class="nav-link">Learn More</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" type="button" aria-pressed="false">
+          <span class="theme-toggle-label">Light mode</span>
+        </button>
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-label="Toggle navigation"
+          aria-expanded="false"
+        >
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO / INTRO -->
+    <section class="section section-hero-legal">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-kicker">Legal &amp; Compliance</p>
+          <h1 class="section-title">Legal &amp; Data Center</h1>
+          <p class="section-subtitle">
+            A human-readable overview of how Fixif.ai works from a legal, privacy,
+            and data-handling perspective—built for busy shop owners and fleet managers.
+          </p>
+        </header>
+
+        <div class="legal-meta">
+          <div class="legal-meta-item">
+            <span class="legal-meta-label">Not a contract substitute</span>
+            <span class="legal-meta-text">
+              This page summarizes how we operate but does not replace formal legal review.
+            </span>
+          </div>
+          <div class="legal-meta-item legal-meta-right">
+            <span class="legal-meta-text">Last updated: <strong>December 2025</strong></span>
+          </div>
+        </div>
+
+        <!-- INTERNAL TAB NAV -->
+        <nav class="legal-subnav" aria-label="Legal navigation">
+          <a href="#terms" class="legal-pill legal-pill--active">
+            <span>Terms of Use</span>
+          </a>
+          <a href="#privacy" class="legal-pill">
+            <span>Privacy Policy</span>
+          </a>
+          <a href="#data-handling" class="legal-pill">
+            <span>Data Handling &amp; Transparency</span>
+          </a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- TERMS OF USE -->
+    <section class="section" id="terms">
+      <div class="container legal-layout">
+        <!-- LEFT COLUMN: TEXT -->
+        <div class="legal-main">
+          <header class="section-header legal-section-header">
+            <p class="section-kicker">Section 1</p>
+            <h2 class="section-title">Terms of Use</h2>
+            <p class="section-subtitle">
+              By using Fixif.ai, you agree to these terms. Please read them carefully
+              before using the platform.
+            </p>
+          </header>
+
+          <div class="card legal-card">
+            <h3 class="card-title">1. Using Fixif.ai</h3>
+            <ul class="card-text">
+              <li>Fixif.ai is intended for auto repair shops, fleet managers, and maintenance professionals.</li>
+              <li>You agree to provide accurate vehicle and fleet information.</li>
+              <li>You agree to use the platform responsibly and not misuse, disrupt, or interfere with its operation.</li>
+            </ul>
+          </div>
+
+          <div class="card legal-card">
+            <h3 class="card-title">2. Your Account</h3>
+            <ul class="card-text">
+              <li>You are responsible for keeping your login credentials secure.</li>
+              <li>You are responsible for all activity that occurs under your account.</li>
+            </ul>
+          </div>
+
+          <div class="card legal-card">
+            <h3 class="card-title">3. Our Content</h3>
+            <ul class="card-text">
+              <li>All content, software, and designs on Fixif.ai are owned by Fixif.ai and/or its licensors.</li>
+              <li>You may not copy, share, or modify any content without our prior written permission.</li>
+            </ul>
+          </div>
+
+          <div class="card legal-card">
+            <h3 class="card-title">4. Guidance &amp; Accuracy</h3>
+            <ul class="card-text">
+              <li>Fixif.ai provides recommendations and labor estimates as guidance only.</li>
+              <li>You should always follow standard automotive practices and safety procedures when performing repairs.</li>
+            </ul>
+          </div>
+
+          <div class="card legal-card">
+            <h3 class="card-title">5. Liability</h3>
+            <ul class="card-text">
+              <li>Fixif.ai is not responsible for any damages, losses, or costs arising from use of the platform.</li>
+              <li>You use Fixif.ai at your own risk and are responsible for decisions and actions taken based on its guidance.</li>
+            </ul>
+          </div>
+
+          <div class="card legal-card">
+            <h3 class="card-title">6. Ending Access</h3>
+            <ul class="card-text">
+              <li>We may suspend or terminate access to Fixif.ai if you violate these terms or misuse the platform.</li>
+              <li>You may close your account at any time by contacting us through the Contact page.</li>
+            </ul>
+          </div>
+
+          <div class="card legal-card">
+            <h3 class="card-title">7. Updates to These Terms</h3>
+            <ul class="card-text">
+              <li>We may update these Terms of Use from time to time.</li>
+              <li>The most current version will always be posted on this page.</li>
+            </ul>
+          </div>
+
+          <div class="card legal-card">
+            <h3 class="card-title">8. Contact</h3>
+            <p class="card-text">
+              Questions about these terms? Reach us via our <a href="contact.html">Contact</a> page.
+            </p>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: CALLOUT -->
+        <aside class="legal-aside card">
+          <h3 class="card-title">Terms Snapshot</h3>
+          <p class="card-text legal-aside-intro">
+            This is a plain-language summary. For any serious legal question,
+            always consult a legal professional.
+          </p>
+          <ul class="card-text legal-aside-list">
+            <li>Built for shops and fleets only.</li>
+            <li>You control and secure your account access.</li>
+            <li>All content and designs remain with Fixif.ai.</li>
+            <li>Recommendations are guidance, not guarantees.</li>
+            <li>Use the platform at your own risk.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PRIVACY POLICY -->
+    <section class="section" id="privacy">
+      <div class="container">
+        <header class="section-header legal-section-header">
+          <p class="section-kicker">Section 2</p>
+          <h2 class="section-title">Privacy Policy</h2>
+          <p class="section-subtitle">
+            This section explains what information we collect, how we use it, and
+            the choices you have as a Fixif.ai user.
+          </p>
+        </header>
+
+        <div class="legal-grid">
+          <div class="legal-stack">
+            <div class="card legal-card">
+              <h3 class="card-title">1. Information We Collect</h3>
+              <ul class="card-text">
+                <li>Vehicle and repair data that you provide, including symptoms and maintenance details.</li>
+                <li>Basic contact information such as your name, email, and shop or fleet details.</li>
+                <li>Conversations and interactions within Fixif.ai to improve guidance and product quality.</li>
+              </ul>
+            </div>
+
+            <div class="card legal-card">
+              <h3 class="card-title">2. How We Use Your Information</h3>
+              <ul class="card-text">
+                <li>To provide, maintain, and improve Fixif.ai and its features.</li>
+                <li>To communicate with you about updates, support, demos, and relevant product information.</li>
+                <li>To analyze trends and usage patterns to enhance platform performance and reliability.</li>
+              </ul>
+            </div>
+
+            <div class="card legal-card">
+              <h3 class="card-title">3. Data Sharing</h3>
+              <ul class="card-text">
+                <li>We do not sell your information to advertisers.</li>
+                <li>We may share data with trusted service providers who help us operate, maintain, or support Fixif.ai.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="legal-stack">
+            <div class="card legal-card">
+              <h3 class="card-title">4. Your Choices</h3>
+              <ul class="card-text">
+                <li>You can request deletion of your account-linked data at any time, subject to legal and operational requirements.</li>
+                <li>You can opt out of marketing or promotional emails by using the unsubscribe options provided.</li>
+              </ul>
+            </div>
+
+            <div class="card legal-card">
+              <h3 class="card-title">5. Security</h3>
+              <ul class="card-text">
+                <li>We take reasonable technical and organizational steps to protect your information.</li>
+                <li>No system is completely secure; we encourage you to use Fixif.ai responsibly and keep your account safe.</li>
+              </ul>
+            </div>
+
+            <div class="card legal-card">
+              <h3 class="card-title">6. Changes to This Privacy Policy</h3>
+              <ul class="card-text">
+                <li>We may update this Privacy Policy as our services and legal requirements evolve.</li>
+                <li>Any changes will be posted on this page with an updated effective date where appropriate.</li>
+              </ul>
+            </div>
+
+            <div class="card legal-card">
+              <h3 class="card-title">7. Contact</h3>
+              <p class="card-text">
+                Questions about privacy? Reach us via our <a href="contact.html">Contact</a> page.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATA HANDLING & TRANSPARENCY -->
+    <section class="section" id="data-handling">
+      <div class="container legal-layout legal-layout--reverse">
+        <div class="legal-main">
+          <header class="section-header legal-section-header">
+            <p class="section-kicker">Section 3</p>
+            <h2 class="section-title">Data Handling &amp; Transparency</h2>
+            <p class="section-subtitle">
+              A plain-language overview of how Fixif.ai treats your data behind the scenes.
+            </p>
+          </header>
+
+          <div class="card legal-card">
+            <h3 class="card-title">Quick Summary</h3>
+            <ul class="card-text">
+              <li>We store vehicle and conversation data to improve guidance and platform performance.</li>
+              <li>We only collect what is necessary to operate Fixif.ai—no extra personal information.</li>
+              <li>You can request deletion of your account-linked data at any time.</li>
+              <li>We do not sell your information to third parties.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="legal-aside card">
+          <h3 class="card-title">Friendly Note</h3>
+          <p class="card-text legal-aside-intro">
+            Fixif.ai is here to help with vehicle problems, not to intrude on your privacy.
+            We handle your data carefully so you can focus on repairs, diagnostics,
+            and fleet management with confidence.
+          </p>
+
+          <h3 class="card-title legal-aside-subtitle">Contact for Data Requests</h3>
+          <p class="card-text">
+            Have questions about your data or want to request deletion?
+            Reach out to us anytime via our <a href="contact.html">Contact</a> page.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© <span id="year"></span> Fixif.ai · GGH Software. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="faq.html">FAQ</a>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#terms">Terms of Use</a>
+        <a href="#data-handling">Data Handling</a>
+        <a href="contact.html">Support</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
